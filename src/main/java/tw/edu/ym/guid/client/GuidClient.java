@@ -1,12 +1,21 @@
 package tw.edu.ym.guid.client;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,7 +23,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
 import wmw.util.InputStreamUtil;
@@ -142,11 +156,16 @@ public final class GuidClient {
   private List<String> resuest(String jsonHashes, String methed)
       throws IOException {
     if (httpClient == null)
-      httpClient = new DefaultHttpClient();
+      httpClient =
+          new DefaultHttpClient(
+              getSSLClientConnectionManager(uri.getPort() == -1 ? 443
+                  : uri.getPort()));
+
     HttpPost httpost =
-        new HttpPost(uri.getScheme() + "://" + uri.getHost()
+        new HttpPost("https://" + uri.getHost()
             + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/guid/"
             + methed);
+
     List<NameValuePair> nvps = newArrayList();
     nvps.add(new BasicNameValuePair("username", username));
     nvps.add(new BasicNameValuePair("password", password));
@@ -165,6 +184,41 @@ public final class GuidClient {
     @SuppressWarnings("unchecked")
     List<String> result = new Gson().fromJson(json, List.class);
     return result;
+  }
+
+  private ClientConnectionManager getSSLClientConnectionManager(int port) {
+    SSLContext sslContext = null;
+    try {
+      sslContext = SSLContext.getInstance("SSL");
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    }
+
+    try {
+      sslContext.init(null, new TrustManager[] { new X509TrustManager() {
+
+        public X509Certificate[] getAcceptedIssuers() {
+          return null;
+        }
+
+        public void
+            checkClientTrusted(X509Certificate[] certs, String authType) {}
+
+        public void
+            checkServerTrusted(X509Certificate[] certs, String authType) {}
+
+      } }, new SecureRandom());
+    } catch (KeyManagementException e) {
+      e.printStackTrace();
+    }
+
+    SSLSocketFactory sf =
+        new SSLSocketFactory(sslContext, ALLOW_ALL_HOSTNAME_VERIFIER);
+    Scheme httpsScheme = new Scheme("https", port, sf);
+    SchemeRegistry schemeRegistry = new SchemeRegistry();
+    schemeRegistry.register(httpsScheme);
+
+    return new BasicClientConnectionManager(schemeRegistry);
   }
 
   @Override

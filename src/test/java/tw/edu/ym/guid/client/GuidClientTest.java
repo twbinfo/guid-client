@@ -1,6 +1,7 @@
 package tw.edu.ym.guid.client;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -14,7 +15,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class GuidClientTest {
     mockResponse = createMock(HttpResponse.class);
     mockEntity = createMock(HttpEntity.class);
 
-    expect(mockClient.execute(EasyMock.anyObject(HttpPost.class))).andReturn(
+    expect(mockClient.execute(anyObject(HttpPost.class))).andReturn(
         mockResponse);
     expect(mockResponse.getEntity()).andReturn(mockEntity);
     expect(mockEntity.getContent()).andReturn(
