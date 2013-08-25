@@ -2,10 +2,12 @@ package tw.edu.ym.guid.client;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+import static org.apache.http.impl.auth.BasicScheme.authenticate;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -20,6 +22,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -31,6 +34,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
+import tw.edu.ym.guid.client.field.Birthday;
+import tw.edu.ym.guid.client.field.Name;
+import tw.edu.ym.guid.client.field.NationalId;
+import tw.edu.ym.guid.client.field.Sex;
 import wmw.util.InputStreamUtil;
 
 import com.google.common.base.Objects;
@@ -165,10 +172,10 @@ public final class GuidClient {
         new HttpPost("https://" + uri.getHost()
             + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/guid/"
             + methed);
+    httpost.addHeader(authenticate(new UsernamePasswordCredentials(username,
+        password), "US-ASCII", false));
 
     List<NameValuePair> nvps = newArrayList();
-    nvps.add(new BasicNameValuePair("username", username));
-    nvps.add(new BasicNameValuePair("password", password));
     nvps.add(new BasicNameValuePair("prefix", prefix));
     nvps.add(new BasicNameValuePair("hashes", jsonHashes));
 
@@ -226,6 +233,21 @@ public final class GuidClient {
     return Objects.toStringHelper(this.getClass()).add("Username", username)
         .add("Password", password).add("Prefix", prefix).add("URI", uri)
         .toString();
+  }
+
+  public static void main(String[] args) throws URISyntaxException, IOException {
+    GuidClient guidClient;
+
+    PII pii;
+
+    guidClient =
+        new GuidClient("guid1", "12345", "TEST", new URI(
+            "https://localhost:8443"));
+    pii =
+        new PII(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7, 21),
+            new NationalId("E122371585"));
+    System.out.println(guidClient.query(pii));
+
   }
 
 }
