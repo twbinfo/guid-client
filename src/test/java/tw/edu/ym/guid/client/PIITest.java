@@ -1,6 +1,8 @@
 package tw.edu.ym.guid.client;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -60,10 +62,43 @@ public class PIITest {
   }
 
   @Test
+  public void testEquals() {
+    assertTrue(pii.equals(new PII(name, sex, birthday, nationalId)));
+    assertFalse(pii.equals(new PII(new Name("a", "b"), sex, birthday,
+        nationalId)));
+    assertFalse(pii.equals(new PII(name, Sex.FEMALE, birthday, nationalId)));
+    assertFalse(pii.equals(new PII(name, sex, new Birthday(1980, 7, 21),
+        nationalId)));
+    assertFalse(pii.equals(new PII(name, sex, birthday, new NationalId(
+        "A123456789"))));
+    assertFalse(pii.equals(null));
+  }
+
+  @Test
+  public void testHashCode() {
+    assertEquals(pii.hashCode(),
+        new PII(name, sex, birthday, nationalId).hashCode());
+    assertNotEquals(pii.hashCode(), new PII(name, Sex.FEMALE, birthday,
+        nationalId).hashCode());
+  }
+
+  @Test
   public void testToString() {
     assertEquals(
         "PII{Name=MJ LI, Sex=M, Birthday=1979/07/21, NationalId=E122371585}",
         pii.toString());
+  }
+
+  @Test
+  public void testCompareTo() {
+    assertTrue(pii.compareTo(new PII(new Name("a", "b"), sex, birthday,
+        nationalId)) > 0);
+    assertTrue(pii.compareTo(new PII(name, Sex.FEMALE, birthday, nationalId)) > 0);
+    assertTrue(pii.compareTo(new PII(name, sex, new Birthday(1980, 7, 21),
+        nationalId)) < 0);
+    assertTrue(pii.compareTo(new PII(name, sex, birthday, new NationalId(
+        "A123456789"))) > 0);
+    assertTrue(pii.compareTo(new PII(name, sex, birthday, nationalId)) == 0);
   }
 
 }

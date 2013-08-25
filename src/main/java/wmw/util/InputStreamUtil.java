@@ -61,7 +61,7 @@ public final class InputStreamUtil {
   public static String toString(InputStream is, final boolean lineSeparator) {
     final StringBuilder sb = new StringBuilder();
 
-    streamingByLine(is, new LineOperator() {
+    eachLine(is, new LineOperator() {
 
       @Override
       public void doLine(String line) {
@@ -85,7 +85,7 @@ public final class InputStreamUtil {
   public static List<String> toStringList(InputStream is) {
     final List<String> list = new ArrayList<String>();
 
-    streamingByLine(is, new LineOperator() {
+    eachLine(is, new LineOperator() {
 
       @Override
       public void doLine(String line) {
@@ -118,9 +118,11 @@ public final class InputStreamUtil {
    * @param operator
    *          a LineOperator
    */
-  public static void streamingByLine(InputStream is, LineOperator operator) {
-    BufferedReader br = null;
+  public static void eachLine(InputStream is, LineOperator operator) {
+    if (is == null || operator == null)
+      throw new NullPointerException();
 
+    BufferedReader br = null;
     String line;
     try {
       br = new BufferedReader(new InputStreamReader(is));
@@ -140,5 +142,4 @@ public final class InputStreamUtil {
       }
     }
   }
-
 }

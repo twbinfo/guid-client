@@ -20,9 +20,15 @@
  */
 package tw.edu.ym.guid.client.field;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -127,9 +133,37 @@ public class BirthdayTest {
   }
 
   @Test
+  public void testEquals() {
+    assertTrue(new Birthday(1987, 6, 5).equals(birthday));
+    assertFalse(new Birthday(1990, 6, 5).equals(birthday));
+    assertFalse(new Birthday(1987, 4, 5).equals(birthday));
+    assertFalse(new Birthday(1987, 6, 6).equals(birthday));
+    assertFalse(new Birthday(1990, 6, 6).equals(null));
+  }
+
+  @Test
+  public void testHashCode() {
+    assertEquals(birthday.hashCode(), new Birthday(1987, 6, 5).hashCode());
+    assertNotEquals(birthday.hashCode(), new Birthday(1990, 6, 6).hashCode());
+  }
+
+  @Test
   public void testToString() {
     assertEquals("1987/06/05", birthday.toString());
     assertEquals("2000/10/10", new Birthday(2000, 10, 10).toString());
+  }
+
+  @Test
+  public void testCompareTo() {
+    List<Birthday> birthdays =
+        newArrayList(new Birthday(2000, 11, 10), new Birthday(2000, 10, 10),
+            new Birthday(1999, 10, 10), new Birthday(1999, 10, 9),
+            new Birthday(1999, 10, 10));
+    Collections.sort(birthdays);
+    assertEquals(
+        newArrayList(new Birthday(1999, 10, 9), new Birthday(1999, 10, 10),
+            new Birthday(1999, 10, 10), new Birthday(2000, 10, 10),
+            new Birthday(2000, 11, 10)), birthdays);
   }
 
 }

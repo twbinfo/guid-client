@@ -68,4 +68,19 @@ public class InputStreamUtilTest {
         InputStreamUtil.toStringArray(is));
   }
 
+  @Test(expected = NullPointerException.class)
+  public void testEachLineWithNullLineOperator() {
+    InputStreamUtil.eachLine(is, null);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testEachLineWithNullIuputStream() {
+    InputStreamUtil.eachLine(null, new LineOperator() {
+
+      @Override
+      public void doLine(String line) {}
+
+    });
+  }
+
 }

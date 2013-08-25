@@ -3,6 +3,8 @@ package tw.edu.ym.guid.client.field;
 import static com.google.common.base.Preconditions.checkArgument;
 import wmw.validate.NationalIdValidator;
 
+import com.google.common.base.Objects;
+
 /**
  * 
  * NationalId is a required field of GUID.
@@ -10,7 +12,7 @@ import wmw.validate.NationalIdValidator;
  * @author Wei-Ming Wu
  * 
  */
-public final class NationalId {
+public final class NationalId implements Comparable<NationalId> {
 
   private final String nationalId;
 
@@ -39,8 +41,27 @@ public final class NationalId {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (o instanceof NationalId) {
+      NationalId id = (NationalId) o;
+      return Objects.equal(nationalId, id.nationalId);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(nationalId);
+  }
+
+  @Override
   public String toString() {
     return nationalId;
+  }
+
+  @Override
+  public int compareTo(NationalId o) {
+    return nationalId.compareTo(o.nationalId);
   }
 
 }

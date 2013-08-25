@@ -2,6 +2,8 @@ package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.base.Objects;
+
 /**
  * 
  * Birthday is a required field of GUID.
@@ -9,7 +11,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * @author Wei-Ming Wu
  * 
  */
-public final class Birthday {
+public final class Birthday implements Comparable<Birthday> {
 
   private final int yearOfBirth;
   private final int monthOfBirth;
@@ -105,9 +107,37 @@ public final class Birthday {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (o instanceof Birthday) {
+      Birthday birthday = (Birthday) o;
+      return Objects.equal(yearOfBirth, birthday.yearOfBirth)
+          && Objects.equal(monthOfBirth, birthday.monthOfBirth)
+          && Objects.equal(dayOfBirth, birthday.dayOfBirth);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(yearOfBirth, monthOfBirth, dayOfBirth);
+  }
+
+  @Override
   public String toString() {
     return yearOfBirth + "/" + String.format("%02d", monthOfBirth) + "/"
         + String.format("%02d", dayOfBirth);
+  }
+
+  @Override
+  public int compareTo(Birthday o) {
+    int diff = 0;
+    if ((diff = yearOfBirth - o.yearOfBirth) != 0)
+      return diff;
+    if ((diff = monthOfBirth - o.monthOfBirth) != 0)
+      return diff;
+    if ((diff = dayOfBirth - o.dayOfBirth) != 0)
+      return diff;
+    return 0;
   }
 
 }

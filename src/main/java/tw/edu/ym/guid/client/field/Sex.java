@@ -9,7 +9,7 @@ package tw.edu.ym.guid.client.field;
  */
 public enum Sex {
 
-  MALE("M"), FEMALE("F"), UNKNOWN("F");
+  FEMALE("F"), UNKNOWN("F"), MALE("M");
 
   private String sex;
 

@@ -3,6 +3,8 @@ package tw.edu.ym.guid.client.field;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Objects;
+
 /**
  * 
  * Name is a required field of GUID.
@@ -10,7 +12,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Wei-Ming Wu
  * 
  */
-public final class Name {
+public final class Name implements Comparable<Name> {
 
   public static final String DEFAULT_MIDDLE_NAME = "NOTAPPLICABLE";
 
@@ -35,10 +37,10 @@ public final class Name {
    * Creates a Name.
    * 
    * @param firstName
-   * @param lastName
    * @param middleName
+   * @param lastName
    */
-  public Name(String firstName, String lastName, String middleName) {
+  public Name(String firstName, String middleName, String lastName) {
     validate(firstName, lastName, middleName);
     this.firstName = firstName.trim().toUpperCase();
     this.lastName = lastName.trim().toUpperCase();
@@ -84,11 +86,39 @@ public final class Name {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (o instanceof Name) {
+      Name name = (Name) o;
+      return Objects.equal(firstName, name.firstName)
+          && Objects.equal(lastName, name.lastName)
+          && Objects.equal(middleName, name.middleName);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(firstName, lastName, middleName);
+  }
+
+  @Override
   public String toString() {
     if (DEFAULT_MIDDLE_NAME.equals(middleName))
       return firstName + " " + lastName;
     else
       return firstName + " " + middleName + " " + lastName;
+  }
+
+  @Override
+  public int compareTo(Name o) {
+    int diff = 0;
+    if ((diff = firstName.compareTo(o.firstName)) != 0)
+      return diff;
+    if ((diff = middleName.compareTo(o.middleName)) != 0)
+      return diff;
+    if ((diff = lastName.compareTo(o.lastName)) != 0)
+      return diff;
+    return 0;
   }
 
 }

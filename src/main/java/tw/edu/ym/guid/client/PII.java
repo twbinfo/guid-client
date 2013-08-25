@@ -17,7 +17,7 @@ import com.google.common.base.Objects;
  * @author Wei-Ming Wu
  * 
  */
-public final class PII {
+public final class PII implements Comparable<PII> {
 
   private final Name name;
   private final Sex sex;
@@ -85,10 +85,40 @@ public final class PII {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (o instanceof PII) {
+      PII pii = (PII) o;
+      return Objects.equal(name, pii.name) && Objects.equal(sex, pii.sex)
+          && Objects.equal(birthday, pii.birthday)
+          && Objects.equal(nationalId, pii.nationalId);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(name, sex, birthday, nationalId);
+  }
+
+  @Override
   public String toString() {
     return Objects.toStringHelper(this.getClass()).add("Name", name)
         .add("Sex", sex).add("Birthday", birthday)
         .add("NationalId", nationalId).toString();
+  }
+
+  @Override
+  public int compareTo(PII o) {
+    int diff = 0;
+    if ((diff = name.compareTo(o.name)) != 0)
+      return diff;
+    if ((diff = sex.compareTo(o.sex)) != 0)
+      return diff;
+    if ((diff = birthday.compareTo(o.birthday)) != 0)
+      return diff;
+    if ((diff = nationalId.compareTo(o.nationalId)) != 0)
+      return diff;
+    return 0;
   }
 
 }
