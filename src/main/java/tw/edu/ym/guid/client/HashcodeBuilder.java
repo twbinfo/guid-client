@@ -12,8 +12,25 @@ import tw.edu.ym.guid.client.field.Name;
 import tw.edu.ym.guid.client.field.NationalId;
 import tw.edu.ym.guid.client.field.Sex;
 
+/**
+ * 
+ * HashcodeBuilder builds hashcodes for GUID server based on given demographical
+ * information.
+ * 
+ * @author Wei-Ming Wu
+ * 
+ */
 public final class HashcodeBuilder {
 
+  /**
+   * Builds hashcodes based on given demographical information.
+   * 
+   * @param name
+   * @param sex
+   * @param birthday
+   * @param nationalId
+   * @return hashcodes
+   */
   public static List<String> build(Name name, Sex sex, Birthday birthday,
       NationalId nationalId) {
     String str1 =

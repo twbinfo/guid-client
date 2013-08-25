@@ -1,20 +1,34 @@
 package tw.edu.ym.guid.client.field;
 
-public class Sex {
+/**
+ * 
+ * Sex is a required field of GUID.
+ * 
+ * @author Wei-Ming Wu
+ * 
+ */
+public enum Sex {
 
-  private Gender sex;
+  MALE("M"), FEMALE("F"), UNKNOWN("F");
 
-  public Sex(Gender sex) {
+  private String sex;
+
+  private Sex(String sex) {
     this.sex = sex;
   }
 
+  /**
+   * Returns the gender.
+   * 
+   * @return M if male, F otherwise
+   */
   public String getSex() {
-    return toString();
+    return sex;
   }
 
   @Override
   public String toString() {
-    return sex == null ? Gender.FEMALE.toString() : sex.toString();
+    return sex;
   }
 
 }

@@ -2,12 +2,26 @@ package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+/**
+ * 
+ * Birthday is a required field of GUID.
+ * 
+ * @author Wei-Ming Wu
+ * 
+ */
 public final class Birthday {
 
   private final int yearOfBirth;
   private final int monthOfBirth;
   private final int dayOfBirth;
 
+  /**
+   * Creates a Birthday.
+   * 
+   * @param yearOfBirth
+   * @param monthOfBirth
+   * @param dayOfBirth
+   */
   public Birthday(int yearOfBirth, int monthOfBirth, int dayOfBirth) {
     validate(yearOfBirth, monthOfBirth, dayOfBirth);
     this.yearOfBirth = yearOfBirth;
@@ -63,21 +77,37 @@ public final class Birthday {
     }
   }
 
+  /**
+   * Returns the year of birth.
+   * 
+   * @return the year of birth
+   */
   public int getYearOfBirth() {
     return yearOfBirth;
   }
 
+  /**
+   * Returns the month of birth.
+   * 
+   * @return the month of birth
+   */
   public int getMonthOfBirth() {
     return monthOfBirth;
   }
 
+  /**
+   * Returns the day of birth.
+   * 
+   * @return the day of birth
+   */
   public int getDayOfBirth() {
     return dayOfBirth;
   }
 
   @Override
   public String toString() {
-    return yearOfBirth + "/" + "monthOfBirth" + "/" + dayOfBirth;
+    return yearOfBirth + "/" + String.format("%02d", monthOfBirth) + "/"
+        + String.format("%02d", dayOfBirth);
   }
 
 }
