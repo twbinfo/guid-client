@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -98,6 +99,18 @@ public class GuidClientTest {
     assertEquals(
         "GuidClient{Username=test, Password=test, Prefix=TEST, URI=http://localhost:3000}",
         guidClient.toString());
+  }
+
+  public static void main(String[] args) throws URISyntaxException, IOException {
+    GuidClient guidClient =
+        new GuidClient("guid1", "12345", "TEST", new URI(
+            "https://localhost:8443"));
+
+    PII pii =
+        new PII(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7, 21),
+            new NationalId("E122371585"));
+
+    System.out.println(guidClient.query(pii));
   }
 
 }

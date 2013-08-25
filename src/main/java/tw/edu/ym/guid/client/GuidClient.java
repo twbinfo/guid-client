@@ -7,7 +7,6 @@ import static org.apache.http.impl.auth.BasicScheme.authenticate;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -34,10 +33,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
-import tw.edu.ym.guid.client.field.Birthday;
-import tw.edu.ym.guid.client.field.Name;
-import tw.edu.ym.guid.client.field.NationalId;
-import tw.edu.ym.guid.client.field.Sex;
 import wmw.util.InputStreamUtil;
 
 import com.google.common.base.Objects;
@@ -233,21 +228,6 @@ public final class GuidClient {
     return Objects.toStringHelper(this.getClass()).add("Username", username)
         .add("Password", password).add("Prefix", prefix).add("URI", uri)
         .toString();
-  }
-
-  public static void main(String[] args) throws URISyntaxException, IOException {
-    GuidClient guidClient;
-
-    PII pii;
-
-    guidClient =
-        new GuidClient("guid1", "12345", "TEST", new URI(
-            "https://localhost:8443"));
-    pii =
-        new PII(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7, 21),
-            new NationalId("E122371585"));
-    System.out.println(guidClient.query(pii));
-
   }
 
 }
