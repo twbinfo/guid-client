@@ -129,15 +129,15 @@ public final class InputStreamUtil {
       while ((line = br.readLine()) != null)
         operator.doLine(line);
     } catch (IOException e) {
-      Logger.getLogger(InputStreamUtilTest.class.getName()).log(Level.SEVERE,
-          null, e);
+      Logger.getLogger(InputStreamUtil.class.getName()).log(Level.SEVERE, null,
+          e);
     } finally {
       if (br != null) {
         try {
           br.close();
         } catch (IOException e) {
-          Logger.getLogger(InputStreamUtilTest.class.getName()).log(
-              Level.SEVERE, null, e);
+          Logger.getLogger(InputStreamUtil.class.getName()).log(Level.SEVERE,
+              null, e);
         }
       }
     }
