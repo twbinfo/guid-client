@@ -28,6 +28,10 @@ public final class HashcodeGenerator {
 
   public static List<String> compute(Name name, Sex sex, Birthday birthday,
       NationalId nationalId, Birthplace birthplace, Nationality nationality) {
+    if (name == null || sex == null || birthday == null || nationalId == null
+        || birthplace == null || nationality == null)
+      throw new NullPointerException("Null argument is not allowed.");
+
     String str1 =
         "_" + birthday.getYearOfBirth() + "_" + birthday.getDayOfBirth() + "_"
             + sex.getSex() + "_" + nationality.getNationality()
