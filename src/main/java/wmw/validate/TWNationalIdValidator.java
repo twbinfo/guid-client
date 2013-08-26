@@ -30,10 +30,10 @@ import java.util.regex.Pattern;
 
 /**
  * 
- * NationalIdValidator validates the National ID of Taiwan(R.O.C) citizens.
+ * TWNationalIdValidator validates the National ID of Taiwan(R.O.C) citizens.
  * 
  */
-public final class NationalIdValidator {
+public final class TWNationalIdValidator {
 
   public static final Map<Character, Integer> PREFIX =
       unmodifiableMap(new LinkedHashMap<Character, Integer>() {

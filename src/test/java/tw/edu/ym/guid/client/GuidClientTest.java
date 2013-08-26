@@ -21,8 +21,8 @@ import org.junit.Test;
 
 import tw.edu.ym.guid.client.field.Birthday;
 import tw.edu.ym.guid.client.field.Name;
-import tw.edu.ym.guid.client.field.NationalId;
 import tw.edu.ym.guid.client.field.Sex;
+import tw.edu.ym.guid.client.field.TWNationalId;
 
 public class GuidClientTest {
 
@@ -56,8 +56,8 @@ public class GuidClientTest {
     guidClient.setHttpClient(mockClient);
 
     pii =
-        new PII(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7, 21),
-            new NationalId("E122371585"));
+        new PII.Builder(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7,
+            21), new TWNationalId("E122371585")).build();
   }
 
   @Test
@@ -107,8 +107,8 @@ public class GuidClientTest {
             "https://localhost:8443"));
 
     PII pii =
-        new PII(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7, 21),
-            new NationalId("E122371585"));
+        new PII.Builder(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7,
+            21), new TWNationalId("E122371585")).build();
 
     System.out.println(guidClient.query(pii));
   }

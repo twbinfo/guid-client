@@ -6,13 +6,13 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import tw.edu.ym.guid.client.field.BirthdayTest;
 import tw.edu.ym.guid.client.field.NameTest;
-import tw.edu.ym.guid.client.field.NationalIdTest;
+import tw.edu.ym.guid.client.field.TWNationalIdTest;
 import tw.edu.ym.guid.client.field.SexTest;
 import wmw.util.InputStreamUtilTest;
-import wmw.validate.NationalIdValidatorTest;
+import wmw.validate.TWNationalIdValidatorTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ GuidClientTest.class, HashcodeBuilderTest.class, PIITest.class,
-    BirthdayTest.class, NameTest.class, NationalIdTest.class, SexTest.class,
-    InputStreamUtilTest.class, NationalIdValidatorTest.class })
+@SuiteClasses({ GuidClientTest.class, HashcodeTest.class, PIITest.class,
+    BirthdayTest.class, NameTest.class, TWNationalIdTest.class, SexTest.class,
+    InputStreamUtilTest.class, TWNationalIdValidatorTest.class })
 public class AllTests {}

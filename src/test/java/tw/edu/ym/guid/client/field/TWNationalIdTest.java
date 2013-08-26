@@ -8,17 +8,22 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class NationalIdTest {
+public class TWNationalIdTest {
 
-  private NationalId nationalId;
+  private TWNationalId nationalId;
 
   @Before
   public void setUp() throws Exception {
-    nationalId = new NationalId("A123456789");
+    nationalId = new TWNationalId("A123456789");
   }
 
   @Test
   public void testContructor() {
+    assertTrue(nationalId instanceof TWNationalId);
+  }
+
+  @Test
+  public void testInterface() {
     assertTrue(nationalId instanceof NationalId);
   }
 
@@ -29,15 +34,16 @@ public class NationalIdTest {
 
   @Test
   public void testEquals() {
-    assertTrue(nationalId.equals(new NationalId("A123456789")));
+    assertTrue(nationalId.equals(new TWNationalId("A123456789")));
     assertFalse(nationalId.equals(null));
   }
 
   @Test
   public void testHashCode() {
-    assertEquals(nationalId.hashCode(), new NationalId("A123456789").hashCode());
+    assertEquals(nationalId.hashCode(),
+        new TWNationalId("A123456789").hashCode());
     assertNotEquals(nationalId.hashCode(),
-        new NationalId("A987654310").hashCode());
+        new TWNationalId("A987654310").hashCode());
   }
 
   @Test
@@ -47,7 +53,7 @@ public class NationalIdTest {
 
   @Test
   public void testCompareTo() {
-    assertTrue(nationalId.compareTo(new NationalId("A987654310")) < 0);
+    assertTrue(nationalId.compareTo(new TWNationalId("A987654310")) < 0);
   }
 
 }

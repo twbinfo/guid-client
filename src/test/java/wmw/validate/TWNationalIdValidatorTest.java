@@ -25,15 +25,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class NationalIdValidatorTest {
+public class TWNationalIdValidatorTest {
 
   @Test
   public void testValidate() {
-    assertTrue(NationalIdValidator.validate("A123456789"));
-    assertTrue(NationalIdValidator.validate("A987654310"));
-    assertFalse(NationalIdValidator.validate("A987654321"));
-    assertFalse(NationalIdValidator.validate("A666"));
-    assertFalse(NationalIdValidator.validate(null));
+    assertTrue(TWNationalIdValidator.validate("A123456789"));
+    assertTrue(TWNationalIdValidator.validate("A987654310"));
+    assertFalse(TWNationalIdValidator.validate("A987654321"));
+    assertFalse(TWNationalIdValidator.validate("A666"));
+    assertFalse(TWNationalIdValidator.validate(null));
   }
 
 }

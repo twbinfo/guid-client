@@ -1,10 +1,14 @@
 package tw.edu.ym.guid.client;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.List;
 
 import tw.edu.ym.guid.client.field.Birthday;
+import tw.edu.ym.guid.client.field.Birthplace;
 import tw.edu.ym.guid.client.field.Name;
 import tw.edu.ym.guid.client.field.NationalId;
+import tw.edu.ym.guid.client.field.Nationality;
 import tw.edu.ym.guid.client.field.Sex;
 
 import com.google.common.base.Objects;
@@ -23,20 +27,48 @@ public final class PII implements Comparable<PII> {
   private final Sex sex;
   private final Birthday birthday;
   private final NationalId nationalId;
+  private final Birthplace birthplace;
+  private final Nationality nationality;
 
-  /**
-   * Creates a PII.
-   * 
-   * @param name
-   * @param sex
-   * @param birthday
-   * @param nationalId
-   */
-  public PII(Name name, Sex sex, Birthday birthday, NationalId nationalId) {
-    this.name = name;
-    this.sex = sex;
-    this.birthday = birthday;
-    this.nationalId = nationalId;
+  public static class Builder {
+
+    private final Name name;
+    private final Sex sex;
+    private final Birthday birthday;
+    private final NationalId nationalId;
+    private Birthplace birthplace;
+    private Nationality nationality;
+
+    public Builder(Name name, Sex sex, Birthday birthday, NationalId nationalId) {
+      this.name = checkNotNull(name);
+      this.sex = checkNotNull(sex);
+      this.birthday = checkNotNull(birthday);
+      this.nationalId = checkNotNull(nationalId);
+    }
+
+    public Builder birthplace(Birthplace birthplace) {
+      this.birthplace = birthplace;
+      return this;
+    }
+
+    public Builder nationality(Nationality nationality) {
+      this.nationality = nationality;
+      return this;
+    }
+
+    public PII build() {
+      return new PII(this);
+    }
+
+  }
+
+  private PII(Builder builder) {
+    this.name = builder.name;
+    this.sex = builder.sex;
+    this.birthday = builder.birthday;
+    this.nationalId = builder.nationalId;
+    this.birthplace = builder.birthplace;
+    this.nationality = builder.nationality;
   }
 
   /**
@@ -45,7 +77,8 @@ public final class PII implements Comparable<PII> {
    * @return hashcodes
    */
   public List<String> getHashcodes() {
-    return HashcodeBuilder.build(name, sex, birthday, nationalId);
+    return new Hashcode.Builder(name, sex, birthday, nationalId)
+        .birthplace(birthplace).nationality(nationality).build().compute();
   }
 
   /**

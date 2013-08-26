@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import tw.edu.ym.guid.client.field.Birthday;
 import tw.edu.ym.guid.client.field.Name;
-import tw.edu.ym.guid.client.field.NationalId;
 import tw.edu.ym.guid.client.field.Sex;
+import tw.edu.ym.guid.client.field.TWNationalId;
 
 public class PIITest {
 
@@ -19,15 +19,15 @@ public class PIITest {
   private Name name;
   private Sex sex;
   private Birthday birthday;
-  private NationalId nationalId;
+  private TWNationalId nationalId;
 
   @Before
   public void setUp() throws Exception {
     name = new Name("mj", "li");
     sex = Sex.MALE;
     birthday = new Birthday(1979, 7, 21);
-    nationalId = new NationalId("E122371585");
-    pii = new PII(name, sex, birthday, nationalId);
+    nationalId = new TWNationalId("E122371585");
+    pii = new PII.Builder(name, sex, birthday, nationalId).build();
   }
 
   @Test
@@ -37,8 +37,8 @@ public class PIITest {
 
   @Test
   public void testGetHashcodes() {
-    assertEquals(HashcodeBuilder.build(name, sex, birthday, nationalId),
-        pii.getHashcodes());
+    assertEquals(new Hashcode.Builder(name, sex, birthday, nationalId).build()
+        .compute(), pii.getHashcodes());
   }
 
   @Test
@@ -63,23 +63,25 @@ public class PIITest {
 
   @Test
   public void testEquals() {
-    assertTrue(pii.equals(new PII(name, sex, birthday, nationalId)));
-    assertFalse(pii.equals(new PII(new Name("a", "b"), sex, birthday,
+    assertTrue(pii.equals(new PII.Builder(name, sex, birthday, nationalId)
+        .build()));
+    assertFalse(pii.equals(new PII.Builder(new Name("a", "b"), sex, birthday,
+        nationalId).build()));
+    assertFalse(pii.equals(new PII.Builder(name, Sex.FEMALE, birthday,
         nationalId)));
-    assertFalse(pii.equals(new PII(name, Sex.FEMALE, birthday, nationalId)));
-    assertFalse(pii.equals(new PII(name, sex, new Birthday(1980, 7, 21),
-        nationalId)));
-    assertFalse(pii.equals(new PII(name, sex, birthday, new NationalId(
-        "A123456789"))));
+    assertFalse(pii.equals(new PII.Builder(name, sex,
+        new Birthday(1980, 7, 21), nationalId).build()));
+    assertFalse(pii.equals(new PII.Builder(name, sex, birthday,
+        new TWNationalId("A123456789")).build()));
     assertFalse(pii.equals(null));
   }
 
   @Test
   public void testHashCode() {
-    assertEquals(pii.hashCode(),
-        new PII(name, sex, birthday, nationalId).hashCode());
-    assertNotEquals(pii.hashCode(), new PII(name, Sex.FEMALE, birthday,
-        nationalId).hashCode());
+    assertEquals(pii.hashCode(), new PII.Builder(name, sex, birthday,
+        nationalId).build().hashCode());
+    assertNotEquals(pii.hashCode(), new PII.Builder(name, Sex.FEMALE, birthday,
+        nationalId).build().hashCode());
   }
 
   @Test
@@ -91,14 +93,16 @@ public class PIITest {
 
   @Test
   public void testCompareTo() {
-    assertTrue(pii.compareTo(new PII(new Name("a", "b"), sex, birthday,
-        nationalId)) > 0);
-    assertTrue(pii.compareTo(new PII(name, Sex.FEMALE, birthday, nationalId)) > 0);
-    assertTrue(pii.compareTo(new PII(name, sex, new Birthday(1980, 7, 21),
-        nationalId)) < 0);
-    assertTrue(pii.compareTo(new PII(name, sex, birthday, new NationalId(
-        "A123456789"))) > 0);
-    assertTrue(pii.compareTo(new PII(name, sex, birthday, nationalId)) == 0);
+    assertTrue(pii.compareTo(new PII.Builder(new Name("a", "b"), sex, birthday,
+        nationalId).build()) > 0);
+    assertTrue(pii.compareTo(new PII.Builder(name, Sex.FEMALE, birthday,
+        nationalId).build()) > 0);
+    assertTrue(pii.compareTo(new PII.Builder(name, sex, new Birthday(1980, 7,
+        21), nationalId).build()) < 0);
+    assertTrue(pii.compareTo(new PII.Builder(name, sex, birthday,
+        new TWNationalId("A123456789")).build()) > 0);
+    assertTrue(pii.compareTo(new PII.Builder(name, sex, birthday, nationalId)
+        .build()) == 0);
   }
 
 }
