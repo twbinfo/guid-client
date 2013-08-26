@@ -45,7 +45,7 @@ public final class Name implements Comparable<Name> {
     validate(firstName, lastName, middleName);
     this.firstName = firstName.trim().toUpperCase();
     this.lastName = lastName.trim().toUpperCase();
-    this.middleName = middleName.toUpperCase();
+    this.middleName = middleName.trim().toUpperCase();
   }
 
   private void validate(String firstName, String lastName, String middleName) {
