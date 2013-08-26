@@ -86,7 +86,7 @@ public final class GuidClient {
    * @throws IOException
    */
   public List<String> create(PII pii) throws IOException {
-    return resuest(new Gson().toJson(pii.getHashcodes()), "create");
+    return request(new Gson().toJson(pii.getHashcodes()), "create");
   }
 
   /**
@@ -113,7 +113,7 @@ public final class GuidClient {
     List<List<String>> hashsets = newArrayList();
     for (PII pii : piis)
       hashsets.add(pii.getHashcodes());
-    return resuest(new Gson().toJson(hashsets), "create");
+    return request(new Gson().toJson(hashsets), "create");
   }
 
   /**
@@ -125,7 +125,7 @@ public final class GuidClient {
    * @throws IOException
    */
   public List<String> query(PII pii) throws IOException {
-    return resuest(new Gson().toJson(pii.getHashcodes()), "show");
+    return request(new Gson().toJson(pii.getHashcodes()), "show");
   }
 
   /**
@@ -152,10 +152,10 @@ public final class GuidClient {
     List<List<String>> hashsets = newArrayList();
     for (PII pii : piis)
       hashsets.add(pii.getHashcodes());
-    return resuest(new Gson().toJson(hashsets), "show");
+    return request(new Gson().toJson(hashsets), "show");
   }
 
-  private List<String> resuest(String jsonHashes, String methed)
+  private List<String> request(String jsonHashes, String methed)
       throws IOException {
     if (httpClient == null)
       httpClient =
