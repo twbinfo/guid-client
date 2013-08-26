@@ -63,7 +63,7 @@ public class GuidClientTest {
 
   @Test
   public void testCreate() throws IOException {
-    assertEquals(newArrayList("TEST-b94c05f3"), guidClient.create(pii));
+    assertEquals("TEST-b94c05f3", guidClient.create(pii));
   }
 
   @Test
@@ -80,7 +80,7 @@ public class GuidClientTest {
 
   @Test
   public void testQuery() throws IOException {
-    assertEquals(newArrayList("TEST-b94c05f3"), guidClient.query(pii));
+    assertEquals("TEST-b94c05f3", guidClient.query(pii));
   }
 
   @Test

@@ -82,11 +82,11 @@ public final class GuidClient {
    * 
    * @param pii
    *          a PII
-   * @return List of GUIDs
+   * @return a GUID
    * @throws IOException
    */
-  public List<String> create(PII pii) throws IOException {
-    return request(new Gson().toJson(pii.getHashcodes()), "create");
+  public String create(PII pii) throws IOException {
+    return request(new Gson().toJson(pii.getHashcodes()), "create").get(0);
   }
 
   /**
@@ -121,11 +121,11 @@ public final class GuidClient {
    * 
    * @param piis
    *          a PIIs
-   * @return List of GUIDs
+   * @return a GUID
    * @throws IOException
    */
-  public List<String> query(PII pii) throws IOException {
-    return request(new Gson().toJson(pii.getHashcodes()), "show");
+  public String query(PII pii) throws IOException {
+    return request(new Gson().toJson(pii.getHashcodes()), "show").get(0);
   }
 
   /**
