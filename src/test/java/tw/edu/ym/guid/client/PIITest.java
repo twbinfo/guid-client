@@ -106,7 +106,7 @@ public class PIITest {
   @Test
   public void testToString() {
     assertEquals(
-        "PII{Name=MJ LI, Sex=M, Birthday=1979/07/21, NationalId=E122371585, Birthplace=TW, Nationality=TW, NationalityOfBirth=TW}",
+        "PII{Name=MJ LI, Sex=MALE, Birthday=1979/07/21, NationalId=E122371585, Birthplace=TW, Nationality=TW, NationalityOfBirth=TW}",
         pii.toString());
   }
 

@@ -11,13 +11,14 @@ import tw.edu.ym.guid.client.field.NameTest;
 import tw.edu.ym.guid.client.field.NationalityTest;
 import tw.edu.ym.guid.client.field.SexTest;
 import tw.edu.ym.guid.client.field.TWNationalIdTest;
+import wmw.i18n.NationTest;
 import wmw.util.InputStreamUtilTest;
 import wmw.validate.TWNationalIdValidatorTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ GuidClientTest.class, HashcodeGeneratorTest.class,
     PIITest.class, BaseNationalIdTest.class, BirthdayTest.class,
-    BirthplaceTest.class, NameTest.class, NationalityTest.class,
-    TWNationalIdTest.class, SexTest.class, InputStreamUtilTest.class,
+    BirthplaceTest.class, NameTest.class, NationalityTest.class, SexTest.class,
+    TWNationalIdTest.class, NationTest.class, InputStreamUtilTest.class,
     TWNationalIdValidatorTest.class })
 public class AllTests {}

@@ -26,9 +26,4 @@ public enum Sex {
     return sex;
   }
 
-  @Override
-  public String toString() {
-    return sex;
-  }
-
 }
