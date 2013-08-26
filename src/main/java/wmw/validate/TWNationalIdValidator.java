@@ -70,6 +70,8 @@ public final class TWNationalIdValidator {
         }
       });
 
+  private TWNationalIdValidator() {}
+
   /**
    * Validates the National ID of Taiwan(R.O.C) citizens.
    * 

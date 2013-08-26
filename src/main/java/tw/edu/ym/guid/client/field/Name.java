@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * 
@@ -110,15 +111,10 @@ public final class Name implements Comparable<Name> {
   }
 
   @Override
-  public int compareTo(Name o) {
-    int diff = 0;
-    if ((diff = firstName.compareTo(o.firstName)) != 0)
-      return diff;
-    if ((diff = middleName.compareTo(o.middleName)) != 0)
-      return diff;
-    if ((diff = lastName.compareTo(o.lastName)) != 0)
-      return diff;
-    return 0;
+  public int compareTo(Name that) {
+    return ComparisonChain.start().compare(this.firstName, that.firstName)
+        .compare(this.middleName, that.middleName)
+        .compare(this.lastName, that.lastName).result();
   }
 
 }

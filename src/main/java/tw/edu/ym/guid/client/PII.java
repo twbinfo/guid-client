@@ -12,6 +12,7 @@ import tw.edu.ym.guid.client.field.Nationality;
 import tw.edu.ym.guid.client.field.Sex;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * 
@@ -199,21 +200,12 @@ public final class PII implements Comparable<PII> {
   }
 
   @Override
-  public int compareTo(PII o) {
-    int diff = 0;
-    if ((diff = name.compareTo(o.name)) != 0)
-      return diff;
-    if ((diff = sex.compareTo(o.sex)) != 0)
-      return diff;
-    if ((diff = birthday.compareTo(o.birthday)) != 0)
-      return diff;
-    if ((diff = nationalId.compareTo(o.nationalId)) != 0)
-      return diff;
-    if ((diff = birthplace.compareTo(o.birthplace)) != 0)
-      return diff;
-    if ((diff = nationality.compareTo(o.nationality)) != 0)
-      return diff;
-    return 0;
+  public int compareTo(PII that) {
+    return ComparisonChain.start().compare(this.name, that.name)
+        .compare(this.sex, that.sex).compare(this.birthday, that.birthday)
+        .compare(this.nationalId, that.nationalId)
+        .compare(this.birthplace, that.birthplace)
+        .compare(this.nationality, that.nationality).result();
   }
 
 }

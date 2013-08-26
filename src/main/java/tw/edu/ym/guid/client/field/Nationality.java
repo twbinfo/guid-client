@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import wmw.i18n.Nation;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * 
@@ -90,13 +91,9 @@ public final class Nationality implements Comparable<Nationality> {
   }
 
   @Override
-  public int compareTo(Nationality arg0) {
-    int diff = 0;
-    if ((diff = nationality.compareTo(arg0.nationality)) != 0)
-      return diff;
-    if ((diff = nationalityOfBirth.compareTo(arg0.nationalityOfBirth)) != 0)
-      return diff;
-    return 0;
+  public int compareTo(Nationality that) {
+    return ComparisonChain.start().compare(this.nationality, that.nationality)
+        .compare(this.nationalityOfBirth, that.nationalityOfBirth).result();
   }
 
 }

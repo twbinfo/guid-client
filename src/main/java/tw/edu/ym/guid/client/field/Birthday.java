@@ -3,6 +3,7 @@ package tw.edu.ym.guid.client.field;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * 
@@ -129,15 +130,10 @@ public final class Birthday implements Comparable<Birthday> {
   }
 
   @Override
-  public int compareTo(Birthday o) {
-    int diff = 0;
-    if ((diff = yearOfBirth - o.yearOfBirth) != 0)
-      return diff;
-    if ((diff = monthOfBirth - o.monthOfBirth) != 0)
-      return diff;
-    if ((diff = dayOfBirth - o.dayOfBirth) != 0)
-      return diff;
-    return 0;
+  public int compareTo(Birthday that) {
+    return ComparisonChain.start().compare(this.yearOfBirth, that.yearOfBirth)
+        .compare(this.monthOfBirth, that.monthOfBirth)
+        .compare(this.dayOfBirth, that.dayOfBirth).result();
   }
 
 }
