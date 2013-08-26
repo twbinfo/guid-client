@@ -8,38 +8,33 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TWNationalIdTest {
+public class BaseNationalIdTest {
 
-  private TWNationalId nationalId;
+  private BaseNationalId nationalId;
 
   @Before
   public void setUp() throws Exception {
-    nationalId = new TWNationalId("A123456789");
+    nationalId = new BaseNationalId("A123456789");
   }
 
   @Test
   public void testContructor() {
-    assertTrue(nationalId instanceof TWNationalId);
+    assertTrue(nationalId instanceof BaseNationalId);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testContructorWithInvalidId() {
-    new TWNationalId("Aherh");
-  }
-
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = NullPointerException.class)
   public void testContructorWithNullId() {
-    new TWNationalId(null);
+    new BaseNationalId(null);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testContructorWithEmptyId() {
-    new TWNationalId("");
+    new BaseNationalId("");
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testContructorWithBlankId() {
-    new TWNationalId(" ");
+    new BaseNationalId(" ");
   }
 
   @Test

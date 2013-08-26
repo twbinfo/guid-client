@@ -30,6 +30,13 @@ public final class PII implements Comparable<PII> {
   private final Birthplace birthplace;
   private final Nationality nationality;
 
+  /**
+   * 
+   * PII.Builder is designed to build a PII.
+   * 
+   * @author Wei-Ming Wu
+   * 
+   */
   public static class Builder {
 
     private final Name name;
@@ -39,6 +46,14 @@ public final class PII implements Comparable<PII> {
     private Birthplace birthplace;
     private Nationality nationality;
 
+    /**
+     * Creates a PII.Builder.
+     * 
+     * @param name
+     * @param sex
+     * @param birthday
+     * @param nationalId
+     */
     public Builder(Name name, Sex sex, Birthday birthday, NationalId nationalId) {
       this.name = checkNotNull(name);
       this.sex = checkNotNull(sex);
@@ -46,16 +61,33 @@ public final class PII implements Comparable<PII> {
       this.nationalId = checkNotNull(nationalId);
     }
 
+    /**
+     * Adds Birthplace to this Builder.
+     * 
+     * @param birthplace
+     * @return this Builder
+     */
     public Builder birthplace(Birthplace birthplace) {
       this.birthplace = birthplace;
       return this;
     }
 
+    /**
+     * Adds Nationality to this Builder.
+     * 
+     * @param birthplace
+     * @return this Builder
+     */
     public Builder nationality(Nationality nationality) {
       this.nationality = nationality;
       return this;
     }
 
+    /**
+     * Creates a PII.
+     * 
+     * @return a PII
+     */
     public PII build() {
       return new PII(this);
     }
@@ -67,22 +99,26 @@ public final class PII implements Comparable<PII> {
     this.sex = builder.sex;
     this.birthday = builder.birthday;
     this.nationalId = builder.nationalId;
-    this.birthplace = builder.birthplace;
-    this.nationality = builder.nationality;
+    this.birthplace =
+        builder.birthplace == null ? Birthplace.getDefault()
+            : builder.birthplace;
+    this.nationality =
+        builder.nationality == null ? Nationality.getDefault()
+            : builder.nationality;
   }
 
   /**
-   * Returns hashcodes based on this PII.
+   * Returns hashcodes for GUID.
    * 
    * @return hashcodes
    */
   public List<String> getHashcodes() {
-    return new Hashcode.Builder(name, sex, birthday, nationalId)
-        .birthplace(birthplace).nationality(nationality).build().compute();
+    return HashcodeGenerator.compute(name, sex, birthday, nationalId,
+        birthplace, nationality);
   }
 
   /**
-   * Returns the full name of this patient
+   * Returns the full name of this patient.
    * 
    * @return the full name of this patient
    */
@@ -91,7 +127,7 @@ public final class PII implements Comparable<PII> {
   }
 
   /**
-   * Returns the sex of this patient
+   * Returns the sex of this patient.
    * 
    * @return the sex of this patient
    */
@@ -102,19 +138,37 @@ public final class PII implements Comparable<PII> {
   /**
    * Returns the birthday of this patient
    * 
-   * @return the birthday of this patient
+   * @return the birthday of this patient.
    */
   public Birthday getBirthday() {
     return birthday;
   }
 
   /**
-   * Returns the National ID of this patient
+   * Returns the National ID of this patient.
    * 
    * @return the National ID of this patient
    */
   public NationalId getNationalId() {
     return nationalId;
+  }
+
+  /**
+   * Returns the Birthplace of this patient.
+   * 
+   * @return the Birthplace of this patient
+   */
+  public Birthplace getBirthplace() {
+    return birthplace;
+  }
+
+  /**
+   * Returns the Nationality of this patient.
+   * 
+   * @return the Nationality of this patient
+   */
+  public Nationality getNationality() {
+    return nationality;
   }
 
   @Override
@@ -123,21 +177,25 @@ public final class PII implements Comparable<PII> {
       PII pii = (PII) o;
       return Objects.equal(name, pii.name) && Objects.equal(sex, pii.sex)
           && Objects.equal(birthday, pii.birthday)
-          && Objects.equal(nationalId, pii.nationalId);
+          && Objects.equal(nationalId, pii.nationalId)
+          && Objects.equal(birthplace, pii.birthplace)
+          && Objects.equal(nationality, pii.nationality);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(name, sex, birthday, nationalId);
+    return Objects.hashCode(name, sex, birthday, nationalId, birthplace,
+        nationality);
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this.getClass()).add("Name", name)
         .add("Sex", sex).add("Birthday", birthday)
-        .add("NationalId", nationalId).toString();
+        .add("NationalId", nationalId).add("Birthplace", birthplace)
+        .addValue(nationality).toString();
   }
 
   @Override
@@ -150,6 +208,10 @@ public final class PII implements Comparable<PII> {
     if ((diff = birthday.compareTo(o.birthday)) != 0)
       return diff;
     if ((diff = nationalId.compareTo(o.nationalId)) != 0)
+      return diff;
+    if ((diff = birthplace.compareTo(o.birthplace)) != 0)
+      return diff;
+    if ((diff = nationality.compareTo(o.nationality)) != 0)
       return diff;
     return 0;
   }

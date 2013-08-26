@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -110,7 +111,7 @@ public class GuidClientTest {
         new PII.Builder(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7,
             21), new TWNationalId("E122371585")).build();
 
-    System.out.println(guidClient.query(pii));
+    System.out.println(guidClient.query(Arrays.asList(pii, pii)));
   }
 
 }

@@ -5,14 +5,41 @@ import wmw.i18n.Nation;
 
 import com.google.common.base.Objects;
 
+/**
+ * 
+ * Birthplace is a optional field of GUID.
+ * 
+ * @author Wei-Ming Wu
+ * 
+ */
 public final class Birthplace implements Comparable<Birthplace> {
 
   private final Nation birthplace;
 
+  /**
+   * Returns a default birthplace of TW(Taiwan).
+   * 
+   * @return a birthplace of TW
+   */
+  public static Birthplace getDefault() {
+    return new Birthplace(Nation.TW);
+  }
+
+  /**
+   * Creates a Birthplace.
+   * 
+   * @param birthplace
+   *          a Nation
+   */
   public Birthplace(Nation birthplace) {
     this.birthplace = checkNotNull(birthplace);
   }
 
+  /**
+   * Returns the nation of birthplace.
+   * 
+   * @return a Nation
+   */
   public Nation getBirthplace() {
     return birthplace;
   }

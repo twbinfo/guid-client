@@ -5,25 +5,65 @@ import wmw.i18n.Nation;
 
 import com.google.common.base.Objects;
 
+/**
+ * 
+ * Nationality is a optional field of GUID.
+ * 
+ * @author Wei-Ming Wu
+ * 
+ */
 public final class Nationality implements Comparable<Nationality> {
 
   private final Nation nationality;
   private final Nation nationalityOfBirth;
 
+  /**
+   * Returns a default nationality of TW(Taiwan).
+   * 
+   * @return a nationality of TW
+   */
+  public static Nationality getDefault() {
+    return new Nationality(Nation.TW);
+  }
+
+  /**
+   * Creates a Nationality.
+   * 
+   * @param nationality
+   *          a Nation
+   */
   public Nationality(Nation nationality) {
     this.nationality = checkNotNull(nationality);
     this.nationalityOfBirth = checkNotNull(nationality);
   }
 
+  /**
+   * Creates a Nationality.
+   * 
+   * @param nationality
+   *          a Nation
+   * @param nationalityOfBirth
+   *          a Nation
+   */
   public Nationality(Nation nationality, Nation nationalityOfBirth) {
     this.nationality = checkNotNull(nationality);
     this.nationalityOfBirth = checkNotNull(nationalityOfBirth);
   }
 
+  /**
+   * Returns the nation of nationality.
+   * 
+   * @return a Nation
+   */
   public Nation getNationality() {
     return nationality;
   }
 
+  /**
+   * Returns the nation of nationality of birth.
+   * 
+   * @return a Nation
+   */
   public Nation getNationalityOfBirth() {
     return nationalityOfBirth;
   }
@@ -45,9 +85,8 @@ public final class Nationality implements Comparable<Nationality> {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this.getClass())
-        .add("Nationality", nationality)
-        .add("NationalityOfBirth", nationalityOfBirth).toString();
+    return "Nationality=" + nationality + ", " + "NationalityOfBirth="
+        + nationalityOfBirth;
   }
 
   @Override

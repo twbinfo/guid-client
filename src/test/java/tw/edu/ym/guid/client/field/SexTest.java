@@ -30,14 +30,12 @@ public class SexTest {
   public void testGetSex() {
     assertEquals("F", Sex.FEMALE.getSex());
     assertEquals("M", Sex.MALE.getSex());
-    assertEquals("F", Sex.UNKNOWN.getSex());
   }
 
   @Test
   public void testToString() {
     assertEquals("F", Sex.FEMALE.toString());
     assertEquals("M", Sex.MALE.toString());
-    assertEquals("F", Sex.FEMALE.toString());
   }
 
 }
