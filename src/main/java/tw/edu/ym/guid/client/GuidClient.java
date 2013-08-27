@@ -49,6 +49,25 @@ import com.google.gson.Gson;
  */
 public final class GuidClient {
 
+  private static final String API_ROOT = "guid";
+
+  private enum Action {
+
+    QUERY("show"), CREATE("create");
+
+    private String uri;
+
+    private Action(String uri) {
+      this.uri = uri;
+    }
+
+    @Override
+    public String toString() {
+      return uri;
+    }
+
+  }
+
   private HttpClient httpClient;
 
   private final String username;
@@ -88,7 +107,7 @@ public final class GuidClient {
    * @throws IOException
    */
   public String create(PII pii) throws IOException {
-    return request(new Gson().toJson(pii.getHashcodes()), "create").get(0);
+    return request(new Gson().toJson(pii.getHashcodes()), Action.QUERY).get(0);
   }
 
   /**
@@ -115,7 +134,7 @@ public final class GuidClient {
     List<List<String>> hashsets = newArrayList();
     for (PII pii : piis)
       hashsets.add(pii.getHashcodes());
-    return request(new Gson().toJson(hashsets), "create");
+    return request(new Gson().toJson(hashsets), Action.CREATE);
   }
 
   /**
@@ -127,7 +146,7 @@ public final class GuidClient {
    * @throws IOException
    */
   public String query(PII pii) throws IOException {
-    return request(new Gson().toJson(pii.getHashcodes()), "show").get(0);
+    return request(new Gson().toJson(pii.getHashcodes()), Action.QUERY).get(0);
   }
 
   /**
@@ -154,10 +173,10 @@ public final class GuidClient {
     List<List<String>> hashsets = newArrayList();
     for (PII pii : piis)
       hashsets.add(pii.getHashcodes());
-    return request(new Gson().toJson(hashsets), "show");
+    return request(new Gson().toJson(hashsets), Action.QUERY);
   }
 
-  private List<String> request(String jsonHashes, String methed)
+  private List<String> request(String jsonHashes, Action action)
       throws IOException {
     if (httpClient == null)
       httpClient =
@@ -165,11 +184,11 @@ public final class GuidClient {
               getSSLClientConnectionManager(uri.getPort() == -1 ? 443
                   : uri.getPort()));
 
-    HttpPost httpost =
+    HttpPost httpPost =
         new HttpPost("https://" + uri.getHost()
-            + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/guid/"
-            + methed);
-    httpost.addHeader(authenticate(new UsernamePasswordCredentials(username,
+            + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
+            + "/" + action);
+    httpPost.addHeader(authenticate(new UsernamePasswordCredentials(username,
         password), "US-ASCII", false));
 
     List<NameValuePair> nvps = newArrayList();
@@ -177,17 +196,23 @@ public final class GuidClient {
     nvps.add(new BasicNameValuePair("hashes", jsonHashes));
 
     try {
-      httpost.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
+      httpPost.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
     } catch (UnsupportedEncodingException e) {
       Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
     }
-    HttpResponse response = httpClient.execute(httpost);
+    HttpResponse response = checkStatusCode(httpClient.execute(httpPost));
     HttpEntity entity = response.getEntity();
 
     String json = InputStreamUtil.toString(entity.getContent());
     @SuppressWarnings("unchecked")
     List<String> result = new Gson().fromJson(json, List.class);
     return result;
+  }
+
+  private HttpResponse checkStatusCode(HttpResponse response) {
+    if (response.getStatusLine().getStatusCode() != 200)
+      throw new HttpRequestException(response.getStatusLine().toString());
+    return response;
   }
 
   private ClientConnectionManager getSSLClientConnectionManager(int port) {
@@ -230,6 +255,16 @@ public final class GuidClient {
     return Objects.toStringHelper(this.getClass()).add("Username", username)
         .add("Password", password).add("Prefix", prefix).add("URI", uri)
         .toString();
+  }
+
+  public final class HttpRequestException extends RuntimeException {
+
+    private static final long serialVersionUID = -1138967660734483666L;
+
+    public HttpRequestException(String msg) {
+      super(msg);
+    }
+
   }
 
 }
