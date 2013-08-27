@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.Before;
@@ -31,6 +32,7 @@ public class GuidClientTest {
 
   private HttpClient mockClient;
   private HttpResponse mockResponse;
+  private StatusLine mockStatusLine;
   private HttpEntity mockEntity;
 
   private PII pii;
@@ -43,15 +45,19 @@ public class GuidClientTest {
     mockClient = createMock(HttpClient.class);
     mockResponse = createMock(HttpResponse.class);
     mockEntity = createMock(HttpEntity.class);
+    mockStatusLine = createMock(StatusLine.class);
 
     expect(mockClient.execute(anyObject(HttpPost.class))).andReturn(
         mockResponse);
     expect(mockResponse.getEntity()).andReturn(mockEntity);
+    expect(mockResponse.getStatusLine()).andReturn(mockStatusLine);
+    expect(mockStatusLine.getStatusCode()).andReturn(200);
     expect(mockEntity.getContent()).andReturn(
         new ByteArrayInputStream("[TEST-b94c05f3]".getBytes()));
 
     replay(mockClient);
     replay(mockResponse);
+    replay(mockStatusLine);
     replay(mockEntity);
 
     guidClient.setHttpClient(mockClient);
