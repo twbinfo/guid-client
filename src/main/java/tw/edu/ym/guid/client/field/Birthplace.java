@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import wmw.i18n.Nation;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * 
@@ -64,8 +65,9 @@ public final class Birthplace implements Comparable<Birthplace> {
   }
 
   @Override
-  public int compareTo(Birthplace arg0) {
-    return birthplace.toString().compareTo(arg0.birthplace.toString());
+  public int compareTo(Birthplace that) {
+    return ComparisonChain.start().compare(birthplace, that.birthplace)
+        .result();
   }
 
 }

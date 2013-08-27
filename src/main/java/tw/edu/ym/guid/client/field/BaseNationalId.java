@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 public class BaseNationalId implements NationalId {
 
@@ -40,8 +41,9 @@ public class BaseNationalId implements NationalId {
   }
 
   @Override
-  public int compareTo(NationalId arg0) {
-    return getNationalId().compareTo(arg0.getNationalId());
+  public int compareTo(NationalId that) {
+    return ComparisonChain.start()
+        .compare(getNationalId(), that.getNationalId()).result();
   }
 
 }

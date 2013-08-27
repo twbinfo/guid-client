@@ -13,6 +13,8 @@ import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -177,7 +179,7 @@ public final class GuidClient {
     try {
       httpost.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
     } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
+      Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
     }
     HttpResponse response = httpClient.execute(httpost);
     HttpEntity entity = response.getEntity();

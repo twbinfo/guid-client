@@ -1,6 +1,7 @@
 package tw.edu.ym.guid.client;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class HashcodeGeneratorTest {
   }
 
   @Test
-  public void testBuild() {
+  public void testCompute() {
     List<String> hashcodes =
         HashcodeGenerator.compute(name, sex, birthday, nationalId, birthplace,
             nationality);
@@ -48,6 +49,40 @@ public class HashcodeGeneratorTest {
     assertEquals(
         "631b789d57692ee913d59d59375a6045cbe194e6d8d896e4007ce4a39b6dd8446b6b5f08a0b088751a9566556040511917791dfeb70ac612a54b2106f907ea1400",
         hashcodes.get(2));
+  }
+
+  @Test
+  public void testComputeWithNullArgument() {
+    try {
+      HashcodeGenerator.compute(null, sex, birthday, nationalId, birthplace,
+          nationality);
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      HashcodeGenerator.compute(name, null, birthday, nationalId, birthplace,
+          nationality);
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      HashcodeGenerator.compute(name, sex, null, nationalId, birthplace,
+          nationality);
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      HashcodeGenerator.compute(name, sex, birthday, null, birthplace,
+          nationality);
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      HashcodeGenerator.compute(name, sex, birthday, nationalId, null,
+          nationality);
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      HashcodeGenerator.compute(name, sex, birthday, nationalId, birthplace,
+          null);
+      fail();
+    } catch (NullPointerException e) {}
   }
 
 }

@@ -6,6 +6,8 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import tw.edu.ym.guid.client.field.Birthday;
 import tw.edu.ym.guid.client.field.Birthplace;
@@ -28,8 +30,8 @@ public final class HashcodeGenerator {
 
   public static List<String> compute(Name name, Sex sex, Birthday birthday,
       NationalId nationalId, Birthplace birthplace, Nationality nationality) {
-    if (name == null || sex == null || birthday == null || nationalId == null
-        || birthplace == null || nationality == null)
+    if (newArrayList(name, sex, birthday, nationalId, birthplace, nationality)
+        .contains(null))
       throw new NullPointerException("Null argument is not allowed.");
 
     String str1 =
@@ -53,7 +55,8 @@ public final class HashcodeGenerator {
     try {
       md = MessageDigest.getInstance("SHA-512");
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      Logger.getLogger(HashcodeGenerator.class.getName()).log(Level.SEVERE,
+          null, e);
     }
     byte[] digest1 = md.digest(str1.getBytes());
     byte[] digest2 = md.digest(str2.getBytes());

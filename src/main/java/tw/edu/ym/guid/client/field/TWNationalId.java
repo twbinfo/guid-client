@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import wmw.validate.TWNationalIdValidator;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * 
@@ -61,8 +62,9 @@ public final class TWNationalId implements NationalId {
   }
 
   @Override
-  public int compareTo(NationalId arg0) {
-    return getNationalId().compareTo(arg0.getNationalId());
+  public int compareTo(NationalId that) {
+    return ComparisonChain.start()
+        .compare(getNationalId(), that.getNationalId()).result();
   }
 
 }
