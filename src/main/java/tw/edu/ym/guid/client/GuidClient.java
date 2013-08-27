@@ -55,15 +55,15 @@ public final class GuidClient {
 
     QUERY("show"), CREATE("create");
 
-    private String uri;
+    private String action;
 
-    private Action(String uri) {
-      this.uri = uri;
+    private Action(String action) {
+      this.action = action;
     }
 
     @Override
     public String toString() {
-      return uri;
+      return action;
     }
 
   }
@@ -211,7 +211,7 @@ public final class GuidClient {
 
   private HttpResponse checkStatusCode(HttpResponse response) {
     if (response.getStatusLine().getStatusCode() != 200)
-      throw new HttpRequestException(response.getStatusLine().toString());
+      throw new GuidClientException(response.getStatusLine().toString());
     return response;
   }
 
@@ -257,11 +257,11 @@ public final class GuidClient {
         .toString();
   }
 
-  public final class HttpRequestException extends RuntimeException {
+  private final class GuidClientException extends RuntimeException {
 
-    private static final long serialVersionUID = -1138967660734483666L;
+    private static final long serialVersionUID = 5792652535991137347L;
 
-    public HttpRequestException(String msg) {
+    public GuidClientException(String msg) {
       super(msg);
     }
 
