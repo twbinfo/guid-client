@@ -82,6 +82,23 @@ public final class GuidClient {
    *          to login server
    * @param password
    *          to login server
+   * @param uri
+   *          of the server host
+   */
+  public GuidClient(String username, String password, URI uri) {
+    this.username = username;
+    this.password = password;
+    this.prefix = "";
+    this.uri = uri;
+  }
+
+  /**
+   * Creates a GuidClient.
+   * 
+   * @param username
+   *          to login server
+   * @param password
+   *          to login server
    * @param prefix
    *          of GUIDs
    * @param uri
@@ -179,15 +196,13 @@ public final class GuidClient {
   private List<String> request(String jsonHashes, Action action)
       throws IOException {
     if (httpClient == null)
-      httpClient =
-          new DefaultHttpClient(
-              getSSLClientConnectionManager(uri.getPort() == -1 ? 443
-                  : uri.getPort()));
+      httpClient = new DefaultHttpClient(
+          getSSLClientConnectionManager(uri.getPort() == -1 ? 443
+              : uri.getPort()));
 
-    HttpPost httpPost =
-        new HttpPost("https://" + uri.getHost()
-            + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
-            + "/" + action);
+    HttpPost httpPost = new HttpPost("https://" + uri.getHost()
+        + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
+        + "/" + action);
     httpPost.addHeader(authenticate(new UsernamePasswordCredentials(username,
         password), "US-ASCII", false));
 
@@ -230,19 +245,19 @@ public final class GuidClient {
           return null;
         }
 
-        public void
-            checkClientTrusted(X509Certificate[] certs, String authType) {}
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+        }
 
-        public void
-            checkServerTrusted(X509Certificate[] certs, String authType) {}
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+        }
 
       } }, new SecureRandom());
     } catch (KeyManagementException e) {
       e.printStackTrace();
     }
 
-    SSLSocketFactory sf =
-        new SSLSocketFactory(sslContext, ALLOW_ALL_HOSTNAME_VERIFIER);
+    SSLSocketFactory sf = new SSLSocketFactory(sslContext,
+        ALLOW_ALL_HOSTNAME_VERIFIER);
     Scheme httpsScheme = new Scheme("https", port, sf);
     SchemeRegistry schemeRegistry = new SchemeRegistry();
     schemeRegistry.register(httpsScheme);
