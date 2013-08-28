@@ -124,7 +124,7 @@ public final class GuidClient {
    * @throws IOException
    */
   public String create(PII pii) throws IOException {
-    return request(new Gson().toJson(pii.getHashcodes()), Action.QUERY).get(0);
+    return request(new Gson().toJson(pii.getHashcodes()), Action.CREATE).get(0);
   }
 
   /**
