@@ -6,6 +6,8 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -29,6 +31,7 @@ import tw.edu.ym.guid.client.field.TWNationalId;
 public class GuidClientTest {
 
   private GuidClient guidClient;
+  private URI uri;
 
   private HttpClient mockClient;
   private HttpResponse mockResponse;
@@ -39,8 +42,8 @@ public class GuidClientTest {
 
   @Before
   public void setUp() throws Exception {
-    guidClient =
-        new GuidClient("test", "test", "TEST", new URI("http://localhost:3000"));
+    uri = new URI("http://localhost:3000");
+    guidClient = new GuidClient(uri, "test", "test", "TEST");
 
     mockClient = createMock(HttpClient.class);
     mockResponse = createMock(HttpResponse.class);
@@ -65,6 +68,50 @@ public class GuidClientTest {
     pii =
         new PII.Builder(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7,
             21), new TWNationalId("E122371585")).build();
+  }
+
+  @Test
+  public void testConstructor() throws Exception {
+    assertTrue(guidClient instanceof GuidClient);
+  }
+
+  @Test
+  public void testConstructorWithoutPrefix() throws Exception {
+    guidClient =
+        new GuidClient(new URI("http://localhost:3000"), "test", "test");
+    assertTrue(guidClient instanceof GuidClient);
+  }
+
+  @Test
+  public void testConstructorWithNullArgument() throws Exception {
+    try {
+      new GuidClient(uri, null, "test", "TEST");
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      new GuidClient(uri, "test", null, "TEST");
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      new GuidClient(uri, "test", "test", null);
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      new GuidClient(null, "test", "test", "TEST");
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      new GuidClient(uri, null, "test");
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      new GuidClient(uri, "test", null);
+      fail();
+    } catch (NullPointerException e) {}
+    try {
+      new GuidClient(null, "test", "test");
+      fail();
+    } catch (NullPointerException e) {}
   }
 
   @Test
@@ -110,8 +157,8 @@ public class GuidClientTest {
 
   public static void main(String[] args) throws URISyntaxException, IOException {
     GuidClient guidClient =
-        new GuidClient("guid1", "12345", "TEST", new URI(
-            "https://localhost:8443"));
+        new GuidClient(new URI("https://localhost:8443"), "guid1", "12345",
+            "TEST");
 
     PII pii =
         new PII.Builder(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7,
