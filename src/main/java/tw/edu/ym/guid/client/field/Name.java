@@ -2,6 +2,10 @@ package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static tw.edu.ym.guid.client.hashcode.Field.fn;
+import static tw.edu.ym.guid.client.hashcode.Field.ln;
+import static tw.edu.ym.guid.client.hashcode.Field.mn;
+import tw.edu.ym.guid.client.annotation.Factor;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
@@ -64,6 +68,7 @@ public final class Name implements Comparable<Name> {
    * 
    * @return the first name
    */
+  @Factor(field = fn)
   public String getFirstName() {
     return firstName;
   }
@@ -73,6 +78,7 @@ public final class Name implements Comparable<Name> {
    * 
    * @return the last name
    */
+  @Factor(field = ln)
   public String getLastName() {
     return lastName;
   }
@@ -82,6 +88,7 @@ public final class Name implements Comparable<Name> {
    * 
    * @return the middle name, default value is NOTAPPLICABLE
    */
+  @Factor(field = mn)
   public String getMiddleName() {
     return middleName;
   }

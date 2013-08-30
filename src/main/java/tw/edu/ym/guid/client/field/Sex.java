@@ -1,5 +1,8 @@
 package tw.edu.ym.guid.client.field;
 
+import static tw.edu.ym.guid.client.hashcode.Field.sex;
+import tw.edu.ym.guid.client.annotation.Factor;
+
 /**
  * 
  * Sex is a required field of GUID.
@@ -11,10 +14,10 @@ public enum Sex {
 
   FEMALE("F"), MALE("M");
 
-  private String sex;
+  private String gender;
 
   private Sex(String sex) {
-    this.sex = sex;
+    this.gender = sex;
   }
 
   /**
@@ -22,8 +25,9 @@ public enum Sex {
    * 
    * @return M if male, F otherwise
    */
+  @Factor(field = sex)
   public String getSex() {
-    return sex;
+    return gender;
   }
 
 }

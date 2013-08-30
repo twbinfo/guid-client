@@ -10,6 +10,7 @@ import tw.edu.ym.guid.client.field.Name;
 import tw.edu.ym.guid.client.field.NationalId;
 import tw.edu.ym.guid.client.field.Nationality;
 import tw.edu.ym.guid.client.field.Sex;
+import tw.edu.ym.guid.client.hashcode.GuidHashcodeGenerator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
@@ -114,7 +115,7 @@ public final class PII implements Comparable<PII> {
    * @return hashcodes
    */
   public List<String> getHashcodes() {
-    return HashcodeGenerator.compute(name, sex, birthday, nationalId,
+    return GuidHashcodeGenerator.compute(name, sex, birthday, nationalId,
         birthplace, nationality);
   }
 

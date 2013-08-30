@@ -1,6 +1,8 @@
 package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static tw.edu.ym.guid.client.hashcode.Field.giid;
+import tw.edu.ym.guid.client.annotation.Factor;
 import wmw.validate.TWNationalIdValidator;
 
 import com.google.common.base.Objects;
@@ -37,6 +39,7 @@ public final class TWNationalId implements NationalId {
    * 
    * @return a National ID
    */
+  @Factor(field = giid)
   @Override
   public String getNationalId() {
     return nationalId;

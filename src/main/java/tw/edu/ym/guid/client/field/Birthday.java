@@ -1,6 +1,10 @@
 package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static tw.edu.ym.guid.client.hashcode.Field.dob;
+import static tw.edu.ym.guid.client.hashcode.Field.mob;
+import static tw.edu.ym.guid.client.hashcode.Field.yob;
+import tw.edu.ym.guid.client.annotation.Factor;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
@@ -85,6 +89,7 @@ public final class Birthday implements Comparable<Birthday> {
    * 
    * @return the year of birth
    */
+  @Factor(field = yob)
   public int getYearOfBirth() {
     return yearOfBirth;
   }
@@ -94,6 +99,7 @@ public final class Birthday implements Comparable<Birthday> {
    * 
    * @return the month of birth
    */
+  @Factor(field = mob)
   public int getMonthOfBirth() {
     return monthOfBirth;
   }
@@ -103,6 +109,7 @@ public final class Birthday implements Comparable<Birthday> {
    * 
    * @return the day of birth
    */
+  @Factor(field = dob)
   public int getDayOfBirth() {
     return dayOfBirth;
   }

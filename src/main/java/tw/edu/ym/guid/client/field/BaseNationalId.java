@@ -2,6 +2,8 @@ package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static tw.edu.ym.guid.client.hashcode.Field.giid;
+import tw.edu.ym.guid.client.annotation.Factor;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
@@ -16,6 +18,7 @@ public class BaseNationalId implements NationalId {
     this.nationalId = nationalId.trim();
   }
 
+  @Factor(field = giid)
   @Override
   public String getNationalId() {
     return nationalId;

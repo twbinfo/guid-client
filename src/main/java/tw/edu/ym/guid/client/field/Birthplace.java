@@ -1,6 +1,8 @@
 package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static tw.edu.ym.guid.client.hashcode.Field.cob;
+import tw.edu.ym.guid.client.annotation.Factor;
 import wmw.i18n.Nation;
 
 import com.google.common.base.Objects;
@@ -41,6 +43,7 @@ public final class Birthplace implements Comparable<Birthplace> {
    * 
    * @return a Nation
    */
+  @Factor(field = cob)
   public Nation getBirthplace() {
     return birthplace;
   }

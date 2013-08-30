@@ -1,6 +1,9 @@
 package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static tw.edu.ym.guid.client.hashcode.Field.cnob;
+import static tw.edu.ym.guid.client.hashcode.Field.giidc;
+import tw.edu.ym.guid.client.annotation.Factor;
 import wmw.i18n.Nation;
 
 import com.google.common.base.Objects;
@@ -56,6 +59,7 @@ public final class Nationality implements Comparable<Nationality> {
    * 
    * @return a Nation
    */
+  @Factor(field = giidc)
   public Nation getNationality() {
     return nationality;
   }
@@ -65,6 +69,7 @@ public final class Nationality implements Comparable<Nationality> {
    * 
    * @return a Nation
    */
+  @Factor(field = cnob)
   public Nation getNationalityOfBirth() {
     return nationalityOfBirth;
   }

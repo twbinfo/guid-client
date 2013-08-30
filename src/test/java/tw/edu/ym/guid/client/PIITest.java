@@ -14,6 +14,7 @@ import tw.edu.ym.guid.client.field.Name;
 import tw.edu.ym.guid.client.field.Nationality;
 import tw.edu.ym.guid.client.field.Sex;
 import tw.edu.ym.guid.client.field.TWNationalId;
+import tw.edu.ym.guid.client.hashcode.GuidHashcodeGenerator;
 import wmw.i18n.Nation;
 
 public class PIITest {
@@ -40,10 +41,8 @@ public class PIITest {
 
   @Test
   public void testGetHashcodes() {
-    assertEquals(
-        HashcodeGenerator.compute(name, sex, birthday, nationalId,
-            Birthplace.getDefault(), Nationality.getDefault()),
-        pii.getHashcodes());
+    assertEquals(GuidHashcodeGenerator.compute(name, sex, birthday, nationalId,
+        Birthplace.getDefault(), Nationality.getDefault()), pii.getHashcodes());
   }
 
   @Test
