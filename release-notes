@@ -1,0 +1,14 @@
+Version 1.0.0
+
++ First release
+
+Version 1.1.0
+
+* Returned String instead of List while performing single query
+* Changed GuidClient constructor signature
++ Added HttpRequestException
+
+Version 1.2.0
+
++ Added Factor annotation
+
