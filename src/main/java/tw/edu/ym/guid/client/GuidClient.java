@@ -315,7 +315,4 @@ public final class GuidClient {
 
   }
 
-  public static void main(String[] srg) {
-    System.out.println(new Gson().fromJson("true", Boolean.class));
-  }
 }
