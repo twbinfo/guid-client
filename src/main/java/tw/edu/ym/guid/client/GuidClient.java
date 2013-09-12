@@ -3,7 +3,6 @@ package tw.edu.ym.guid.client;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.newArrayList;
 import static org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
-import static org.apache.http.impl.auth.BasicScheme.authenticate;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -27,11 +26,13 @@ import org.apache.http.NameValuePair;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
@@ -54,7 +55,7 @@ public final class GuidClient {
 
   private enum Action {
 
-    QUERY("show"), CREATE("create");
+    AUTH("authenticate"), QUERY("show"), CREATE("create");
 
     private String action;
 
@@ -114,6 +115,34 @@ public final class GuidClient {
 
   void setHttpClient(HttpClient httpClient) {
     this.httpClient = httpClient;
+  }
+
+  /**
+   * Authenticates a user account.
+   * 
+   * @return true if authenticated, false otherwise
+   * @throws IOException
+   */
+  public boolean authenticate() throws IOException {
+    if (httpClient == null)
+      httpClient =
+          new DefaultHttpClient(
+              getSSLClientConnectionManager(uri.getPort() == -1 ? 443
+                  : uri.getPort()));
+
+    HttpGet httpGet =
+        new HttpGet("https://" + uri.getHost()
+            + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
+            + "/" + Action.AUTH);
+    httpGet.addHeader(BasicScheme.authenticate(new UsernamePasswordCredentials(
+        username, password), "US-ASCII", false));
+
+    HttpResponse response = checkStatusCode(httpClient.execute(httpGet));
+    HttpEntity entity = response.getEntity();
+
+    String json = InputStreamUtil.toString(entity.getContent());
+    Boolean result = new Gson().fromJson(json, Boolean.class);
+    return result;
   }
 
   /**
@@ -206,8 +235,9 @@ public final class GuidClient {
         new HttpPost("https://" + uri.getHost()
             + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
             + "/" + action);
-    httpPost.addHeader(authenticate(new UsernamePasswordCredentials(username,
-        password), "US-ASCII", false));
+    httpPost
+        .addHeader(BasicScheme.authenticate(new UsernamePasswordCredentials(
+            username, password), "US-ASCII", false));
 
     List<NameValuePair> nvps = newArrayList();
     nvps.add(new BasicNameValuePair("prefix", prefix));
@@ -285,4 +315,7 @@ public final class GuidClient {
 
   }
 
+  public static void main(String[] srg) {
+    System.out.println(new Gson().fromJson("true", Boolean.class));
+  }
 }

@@ -31,7 +31,8 @@ public final class TWNationalId implements NationalId {
   }
 
   private void validate(String nationalId) {
-    checkArgument(TWNationalIdValidator.validate(nationalId));
+    checkArgument(TWNationalIdValidator.validate(nationalId),
+        "NationalId is invalid.");
   }
 
   /**

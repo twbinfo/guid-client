@@ -37,8 +37,9 @@ public final class Nationality implements Comparable<Nationality> {
    *          a Nation
    */
   public Nationality(Nation nationality) {
-    this.nationality = checkNotNull(nationality);
-    this.nationalityOfBirth = checkNotNull(nationality);
+    this.nationality = checkNotNull(nationality, "Nationality can't be null.");
+    this.nationalityOfBirth =
+        checkNotNull(nationality, "Nationality of birth can't be null.");
   }
 
   /**
@@ -50,8 +51,9 @@ public final class Nationality implements Comparable<Nationality> {
    *          a Nation
    */
   public Nationality(Nation nationality, Nation nationalityOfBirth) {
-    this.nationality = checkNotNull(nationality);
-    this.nationalityOfBirth = checkNotNull(nationalityOfBirth);
+    this.nationality = checkNotNull(nationality, "Nationality can't be null.");
+    this.nationalityOfBirth =
+        checkNotNull(nationalityOfBirth, "Nationality of birth can't be null.");
   }
 
   /**

@@ -5,6 +5,7 @@ import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.reset;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -19,6 +20,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.Before;
 import org.junit.Test;
@@ -112,6 +114,19 @@ public class GuidClientTest {
       new GuidClient(null, "test", "test");
       fail();
     } catch (NullPointerException e) {}
+  }
+
+  @Test
+  public void testAuthenticate() throws IOException {
+    reset(mockClient);
+    reset(mockEntity);
+    expect(mockClient.execute(anyObject(HttpGet.class)))
+        .andReturn(mockResponse);
+    expect(mockEntity.getContent()).andReturn(
+        new ByteArrayInputStream("true".getBytes()));
+    replay(mockClient);
+    replay(mockEntity);
+    assertTrue(guidClient.authenticate());
   }
 
   @Test

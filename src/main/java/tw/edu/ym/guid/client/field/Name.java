@@ -53,14 +53,12 @@ public final class Name implements Comparable<Name> {
   }
 
   private void validate(String firstName, String lastName, String middleName) {
-    checkNotNull(firstName);
-    checkNotNull(lastName);
+    checkNotNull(firstName, "First name can't be null.");
+    checkNotNull(lastName, "Last name can't be null.");
+    checkArgument(firstName.trim().length() > 0, "First name is empty.");
+    checkArgument(lastName.trim().length() > 0, "Last name is empty.");
     if (middleName != null)
-      checkNotNull(middleName);
-    checkArgument(firstName.trim().length() > 0);
-    checkArgument(lastName.trim().length() > 0);
-    if (middleName != null)
-      checkArgument(middleName.trim().length() > 0);
+      checkArgument(middleName.trim().length() > 0, "Middle name is empty.");
   }
 
   /**

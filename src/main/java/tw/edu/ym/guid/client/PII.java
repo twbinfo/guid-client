@@ -57,10 +57,10 @@ public final class PII implements Comparable<PII> {
      * @param nationalId
      */
     public Builder(Name name, Sex sex, Birthday birthday, NationalId nationalId) {
-      this.name = checkNotNull(name);
-      this.sex = checkNotNull(sex);
-      this.birthday = checkNotNull(birthday);
-      this.nationalId = checkNotNull(nationalId);
+      this.name = checkNotNull(name, "Name can't be null.");
+      this.sex = checkNotNull(sex, "Sex can't be null.");
+      this.birthday = checkNotNull(birthday, "Birthday can't be null.");
+      this.nationalId = checkNotNull(nationalId, "NationalId can't be null.");
     }
 
     /**

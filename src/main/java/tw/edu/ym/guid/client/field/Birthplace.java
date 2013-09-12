@@ -35,7 +35,7 @@ public final class Birthplace implements Comparable<Birthplace> {
    *          a Nation
    */
   public Birthplace(Nation birthplace) {
-    this.birthplace = checkNotNull(birthplace);
+    this.birthplace = checkNotNull(birthplace, "Birthplace can't be null.");
   }
 
   /**

@@ -13,8 +13,8 @@ public class BaseNationalId implements NationalId {
   private final String nationalId;
 
   public BaseNationalId(String nationalId) {
-    checkNotNull(nationalId);
-    checkArgument(nationalId.trim().length() > 0);
+    checkNotNull(nationalId, "NationalId can't be null.");
+    checkArgument(nationalId.trim().length() > 0, "NationalId can't be empty.");
     this.nationalId = nationalId.trim();
   }
 
