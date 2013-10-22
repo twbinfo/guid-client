@@ -124,7 +124,7 @@ public class GuidClientTest {
         new ByteArrayInputStream("true".getBytes()));
     replay(mockClient);
     replay(mockEntity);
-    assertTrue(guidClient.authenticate());
+    assertTrue(guidClient.verifyUser());
   }
 
   @Test
