@@ -123,7 +123,7 @@ public final class GuidClient {
    * @return true if authenticated, false otherwise
    * @throws IOException
    */
-  public boolean verifyUser() throws IOException {
+  public boolean authenticate() throws IOException {
     if (httpClient == null)
       httpClient =
           new DefaultHttpClient(
