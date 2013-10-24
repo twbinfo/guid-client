@@ -36,8 +36,7 @@ public final class FactorExtractor {
 
     Map<Field, Object> factors = new HashMap<Field, Object>();
     for (Object o : objects) {
-      @SuppressWarnings("rawtypes")
-      Class testClass = o.getClass();
+      Class<?> testClass = o.getClass();
       for (Method m : testClass.getDeclaredMethods()) {
         if (m.isAnnotationPresent(Factor.class)) {
           Factor factor = m.getAnnotation(Factor.class);

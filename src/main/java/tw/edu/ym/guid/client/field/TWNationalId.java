@@ -26,13 +26,9 @@ public final class TWNationalId implements NationalId {
    *          a National ID of Taiwan(R.O.C)
    */
   public TWNationalId(String nationalId) {
-    validate(nationalId);
-    this.nationalId = nationalId;
-  }
-
-  private void validate(String nationalId) {
     checkArgument(TWNationalIdValidator.validate(nationalId),
         "NationalId is invalid.");
+    this.nationalId = nationalId;
   }
 
   /**
