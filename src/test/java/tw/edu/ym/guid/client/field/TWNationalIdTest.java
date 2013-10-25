@@ -63,7 +63,7 @@ public class TWNationalIdTest {
     assertEquals(nationalId.hashCode(),
         new TWNationalId("A123456789").hashCode());
     assertNotEquals(nationalId.hashCode(),
-        new TWNationalId("A987654310").hashCode());
+        new TWNationalId("A223456781").hashCode());
   }
 
   @Test
@@ -73,7 +73,7 @@ public class TWNationalIdTest {
 
   @Test
   public void testCompareTo() {
-    assertTrue(nationalId.compareTo(new TWNationalId("A987654310")) < 0);
+    assertTrue(nationalId.compareTo(new TWNationalId("A223456781")) < 0);
   }
 
 }

@@ -68,6 +68,7 @@ public final class TWNationalIdValidator {
           put('Y', 31);
           put('Z', 33);
         }
+
       });
 
   private TWNationalIdValidator() {}

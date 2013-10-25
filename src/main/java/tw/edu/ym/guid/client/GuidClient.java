@@ -247,6 +247,7 @@ public final class GuidClient {
       httpPost.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
     } catch (UnsupportedEncodingException e) {
       Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+      new GuidClientException(e);
     }
     HttpResponse response = checkStatusCode(httpClient.execute(httpPost));
     HttpEntity entity = response.getEntity();
@@ -268,7 +269,8 @@ public final class GuidClient {
     try {
       sslContext = SSLContext.getInstance("SSL");
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+      new GuidClientException(e);
     }
 
     try {
@@ -286,7 +288,8 @@ public final class GuidClient {
 
       } }, new SecureRandom());
     } catch (KeyManagementException e) {
-      e.printStackTrace();
+      Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+      new GuidClientException(e);
     }
 
     SSLSocketFactory sf =
@@ -301,16 +304,20 @@ public final class GuidClient {
   @Override
   public String toString() {
     return Objects.toStringHelper(this.getClass()).add("Username", username)
-        .add("Password", password).add("Prefix", prefix).add("URI", uri)
+        .add("Password", password).add("URI", uri).add("Prefix", prefix)
         .toString();
   }
 
   private final class GuidClientException extends RuntimeException {
 
-    private static final long serialVersionUID = 5792652535991137347L;
+    private static final long serialVersionUID = -3404267628838765596L;
 
-    public GuidClientException(String msg) {
-      super(msg);
+    public GuidClientException(String message) {
+      super(message);
+    }
+
+    public GuidClientException(Throwable cause) {
+      super(cause);
     }
 
   }

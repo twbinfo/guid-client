@@ -164,7 +164,7 @@ public class GuidClientTest {
   @Test
   public void testToString() {
     assertEquals(
-        "GuidClient{Username=test, Password=test, Prefix=TEST, URI=http://localhost:3000}",
+        "GuidClient{Username=test, Password=test, URI=http://localhost:3000, Prefix=TEST}",
         guidClient.toString());
   }
 
