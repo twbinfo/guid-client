@@ -30,7 +30,7 @@ public class TWNationalIdValidatorTest {
   @Test
   public void testValidate() {
     assertTrue(TWNationalIdValidator.validate("A123456789"));
-    assertTrue(TWNationalIdValidator.validate("A987654310"));
+    assertFalse(TWNationalIdValidator.validate("A987654310"));
     assertFalse(TWNationalIdValidator.validate("A987654321"));
     assertFalse(TWNationalIdValidator.validate("A666"));
     assertFalse(TWNationalIdValidator.validate(null));

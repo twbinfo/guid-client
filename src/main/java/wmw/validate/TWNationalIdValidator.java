@@ -81,7 +81,7 @@ public final class TWNationalIdValidator {
    */
   public static boolean validate(String nationalId) {
     if (nationalId == null
-        || !Pattern.compile("^[A-Z]\\d{9}$").matcher(nationalId).find())
+        || !Pattern.compile("^[A-Z][12]\\d{8}$").matcher(nationalId).matches())
       return false;
 
     List<Integer> ints = new ArrayList<Integer>();

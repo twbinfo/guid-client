@@ -1,6 +1,5 @@
 package tw.edu.ym.guid.client.field;
 
-
 /**
  * 
  * NationalId defines a common method of upon all National IDs.
