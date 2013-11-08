@@ -20,13 +20,8 @@
  */
 package wmw.validate;
 
-import static java.util.Collections.unmodifiableMap;
-
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * 
@@ -35,41 +30,7 @@ import java.util.regex.Pattern;
  */
 public final class TWNationalIdValidator {
 
-  public static final Map<Character, Integer> PREFIX =
-      unmodifiableMap(new LinkedHashMap<Character, Integer>() {
-
-        private static final long serialVersionUID = 883904263503948682L;
-
-        {
-          put('A', 10);
-          put('B', 11);
-          put('C', 12);
-          put('D', 13);
-          put('E', 14);
-          put('F', 15);
-          put('G', 16);
-          put('H', 17);
-          put('I', 34);
-          put('J', 18);
-          put('K', 19);
-          put('L', 20);
-          put('M', 21);
-          put('N', 22);
-          put('O', 35);
-          put('P', 23);
-          put('Q', 24);
-          put('R', 25);
-          put('S', 26);
-          put('T', 27);
-          put('U', 28);
-          put('V', 29);
-          put('W', 32);
-          put('X', 30);
-          put('Y', 31);
-          put('Z', 33);
-        }
-
-      });
+  private static final String PREFIX = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
 
   private TWNationalIdValidator() {}
 
@@ -81,23 +42,22 @@ public final class TWNationalIdValidator {
    * @return true if the National ID is valid, false otherwise
    */
   public static boolean validate(String nationalId) {
-    if (nationalId == null
-        || !Pattern.compile("^[A-Z][12]\\d{8}$").matcher(nationalId).matches())
+    if (nationalId == null || !nationalId.matches("^[A-Z][12]\\d{8}$"))
       return false;
 
     List<Integer> ints = new ArrayList<Integer>();
-    ints.add(PREFIX.get(nationalId.charAt(0)) / 10);
-    ints.add(PREFIX.get(nationalId.charAt(0)) % 10);
-    for (int i = 1; i < nationalId.length(); i++)
-      ints.add(Integer.valueOf(String.valueOf(nationalId.charAt(i))));
+    ints.add(PREFIX.indexOf(nationalId.charAt(0)) / 10 + 1);
+    ints.add(PREFIX.indexOf(nationalId.charAt(0)) % 10);
+    for (String c : nationalId.substring(1).split("(?!^)")) {
+      ints.add(Integer.valueOf(c));
+    }
 
     int sum = ints.get(0);
-    for (int i = 1; i < ints.size() - 1; i++)
+    for (int i = 1; i < ints.size() - 1; i++) {
       sum += ints.get(i) * (10 - i);
+    }
 
-    int mod = sum % 10;
-    int checksum = mod == 0 ? mod : 10 - mod;
-
+    int checksum = (10 - sum % 10) % 10;
     return ints.get(ints.size() - 1) == checksum;
   }
 
