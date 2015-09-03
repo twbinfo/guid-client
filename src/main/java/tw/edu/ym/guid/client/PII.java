@@ -4,6 +4,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
+
 import tw.edu.ym.guid.client.field.Birthday;
 import tw.edu.ym.guid.client.field.Birthplace;
 import tw.edu.ym.guid.client.field.Name;
@@ -11,9 +15,6 @@ import tw.edu.ym.guid.client.field.NationalId;
 import tw.edu.ym.guid.client.field.Nationality;
 import tw.edu.ym.guid.client.field.Sex;
 import tw.edu.ym.guid.client.hashcode.GuidHashcodeGenerator;
-
-import com.google.common.base.Objects;
-import com.google.common.collect.ComparisonChain;
 
 /**
  * 
@@ -56,7 +57,8 @@ public final class PII implements Comparable<PII> {
      * @param birthday
      * @param nationalId
      */
-    public Builder(Name name, Sex sex, Birthday birthday, NationalId nationalId) {
+    public Builder(Name name, Sex sex, Birthday birthday,
+        NationalId nationalId) {
       this.name = checkNotNull(name, "Name can't be null.");
       this.sex = checkNotNull(sex, "Sex can't be null.");
       this.birthday = checkNotNull(birthday, "Birthday can't be null.");
@@ -101,12 +103,10 @@ public final class PII implements Comparable<PII> {
     this.sex = builder.sex;
     this.birthday = builder.birthday;
     this.nationalId = builder.nationalId;
-    this.birthplace =
-        builder.birthplace == null ? Birthplace.getDefault()
-            : builder.birthplace;
-    this.nationality =
-        builder.nationality == null ? Nationality.getDefault()
-            : builder.nationality;
+    this.birthplace = builder.birthplace == null ? Birthplace.getDefault()
+        : builder.birthplace;
+    this.nationality = builder.nationality == null ? Nationality.getDefault()
+        : builder.nationality;
   }
 
   /**
@@ -194,10 +194,9 @@ public final class PII implements Comparable<PII> {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this.getClass()).add("Name", name)
-        .add("Sex", sex).add("Birthday", birthday)
-        .add("NationalId", nationalId).add("Birthplace", birthplace)
-        .addValue(nationality).toString();
+    return MoreObjects.toStringHelper(this.getClass()).add("Name", name)
+        .add("Sex", sex).add("Birthday", birthday).add("NationalId", nationalId)
+        .add("Birthplace", birthplace).addValue(nationality).toString();
   }
 
   @Override

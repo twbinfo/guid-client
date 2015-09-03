@@ -37,7 +37,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.gson.Gson;
 
 import wmw.util.InputStreamUtil;
@@ -301,7 +301,7 @@ public final class GuidClient {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this.getClass()).add("Username", username)
+    return MoreObjects.toStringHelper(this.getClass()).add("Username", username)
         .add("Password", password).add("URI", uri).add("Prefix", prefix)
         .toString();
   }
