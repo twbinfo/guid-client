@@ -2,40 +2,38 @@ package tw.edu.ym.guid.client;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.newArrayList;
-import static org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.security.KeyManagementException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.SSLSession;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.BasicClientConnectionManager;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.SSLContextBuilder;
 
 import com.google.common.base.MoreObjects;
 import com.google.gson.Gson;
@@ -124,16 +122,11 @@ public final class GuidClient {
    * @throws IOException
    */
   public boolean authenticate() throws IOException {
-    if (httpClient == null)
-      httpClient = new DefaultHttpClient(getSSLClientConnectionManager(
-          uri.getPort() == -1 ? 443 : uri.getPort()));
+    if (httpClient == null) httpClient = getSSLClient();
 
     HttpGet httpGet = new HttpGet("https://" + uri.getHost()
         + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
         + "/" + Action.AUTH);
-    httpGet.addHeader(BasicScheme.authenticate(
-        new UsernamePasswordCredentials(username, password), "US-ASCII",
-        false));
 
     HttpResponse response = checkStatusCode(httpClient.execute(httpGet));
     HttpEntity entity = response.getEntity();
@@ -177,8 +170,9 @@ public final class GuidClient {
    */
   public List<String> create(List<PII> piis) throws IOException {
     List<List<String>> hashsets = newArrayList();
-    for (PII pii : piis)
+    for (PII pii : piis) {
       hashsets.add(pii.getHashcodes());
+    }
     return request(new Gson().toJson(hashsets), Action.CREATE);
   }
 
@@ -223,16 +217,11 @@ public final class GuidClient {
 
   private List<String> request(String jsonHashes, Action action)
       throws IOException {
-    if (httpClient == null)
-      httpClient = new DefaultHttpClient(getSSLClientConnectionManager(
-          uri.getPort() == -1 ? 443 : uri.getPort()));
+    if (httpClient == null) httpClient = getSSLClient();
 
     HttpPost httpPost = new HttpPost("https://" + uri.getHost()
         + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
         + "/" + action);
-    httpPost.addHeader(BasicScheme.authenticate(
-        new UsernamePasswordCredentials(username, password), "US-ASCII",
-        false));
 
     List<NameValuePair> nvps = newArrayList();
     nvps.add(new BasicNameValuePair("prefix", prefix));
@@ -259,44 +248,43 @@ public final class GuidClient {
     return response;
   }
 
-  private ClientConnectionManager getSSLClientConnectionManager(int port) {
-    SSLContext sslContext = null;
+  private HttpClient getSSLClient() {
+    SSLContextBuilder builder = new SSLContextBuilder();
     try {
-      sslContext = SSLContext.getInstance("SSL");
+      builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
     } catch (NoSuchAlgorithmException e) {
-      Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-      new GuidClientException(e);
+      e.printStackTrace();
+    } catch (KeyStoreException e) {
+      e.printStackTrace();
     }
 
+    SSLContext ctx = null;
     try {
-      sslContext.init(null, new TrustManager[] { new X509TrustManager() {
-
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-          return null;
-        }
-
-        @Override
-        public void checkClientTrusted(X509Certificate[] certs,
-            String authType) {}
-
-        @Override
-        public void checkServerTrusted(X509Certificate[] certs,
-            String authType) {}
-
-      } }, new SecureRandom());
+      ctx = builder.build();
     } catch (KeyManagementException e) {
-      Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
-      new GuidClientException(e);
+
+      e.printStackTrace();
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
     }
 
-    SSLSocketFactory sf =
-        new SSLSocketFactory(sslContext, ALLOW_ALL_HOSTNAME_VERIFIER);
-    Scheme httpsScheme = new Scheme("https", port, sf);
-    SchemeRegistry schemeRegistry = new SchemeRegistry();
-    schemeRegistry.register(httpsScheme);
+    SSLConnectionSocketFactory sslsf =
+        new SSLConnectionSocketFactory(ctx, new HostnameVerifier() {
 
-    return new BasicClientConnectionManager(schemeRegistry);
+          @Override
+          public boolean verify(String hostname, SSLSession session) {
+            return true;
+          }
+
+        });
+
+    CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+    credentialsProvider.setCredentials(AuthScope.ANY,
+        new UsernamePasswordCredentials("username", "password"));
+
+    return HttpClients.custom()
+        .setDefaultCredentialsProvider(credentialsProvider)
+        .setSSLSocketFactory(sslsf).build();
   }
 
   @Override
