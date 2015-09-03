@@ -50,13 +50,13 @@ public class GuidClientTest {
     mockEntity = createMock(HttpEntity.class);
     mockStatusLine = createMock(StatusLine.class);
 
-    expect(mockClient.execute(anyObject(HttpPost.class))).andReturn(
-        mockResponse);
+    expect(mockClient.execute(anyObject(HttpPost.class)))
+        .andReturn(mockResponse);
     expect(mockResponse.getEntity()).andReturn(mockEntity);
     expect(mockResponse.getStatusLine()).andReturn(mockStatusLine);
     expect(mockStatusLine.getStatusCode()).andReturn(200);
-    expect(mockEntity.getContent()).andReturn(
-        new ByteArrayInputStream("[TEST-b94c05f3]".getBytes()));
+    expect(mockEntity.getContent())
+        .andReturn(new ByteArrayInputStream("[TEST-b94c05f3]".getBytes()));
 
     replay(mockClient);
     replay(mockResponse);
@@ -65,9 +65,8 @@ public class GuidClientTest {
 
     guidClient.setHttpClient(mockClient);
 
-    pii =
-        new PII.Builder(new Name("mj", "li"), Sex.MALE, new Birthday(1979, 7,
-            21), new TWNationalId("E122371585")).build();
+    pii = new PII.Builder(new Name("mj", "li"), Sex.MALE,
+        new Birthday(1979, 7, 21), new TWNationalId("E122371585")).build();
   }
 
   @Test
@@ -120,8 +119,8 @@ public class GuidClientTest {
     reset(mockEntity);
     expect(mockClient.execute(anyObject(HttpGet.class)))
         .andReturn(mockResponse);
-    expect(mockEntity.getContent()).andReturn(
-        new ByteArrayInputStream("true".getBytes()));
+    expect(mockEntity.getContent())
+        .andReturn(new ByteArrayInputStream("true".getBytes()));
     replay(mockClient);
     replay(mockEntity);
     assertTrue(guidClient.authenticate());

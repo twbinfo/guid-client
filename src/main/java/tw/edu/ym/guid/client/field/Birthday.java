@@ -4,10 +4,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static tw.edu.ym.guid.client.hashcode.Field.dob;
 import static tw.edu.ym.guid.client.hashcode.Field.mob;
 import static tw.edu.ym.guid.client.hashcode.Field.yob;
-import tw.edu.ym.guid.client.annotation.Factor;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
+
+import tw.edu.ym.guid.client.annotation.Factor;
 
 /**
  * 
@@ -42,60 +43,60 @@ public final class Birthday implements Comparable<Birthday> {
     checkArgument(monthOfBirth >= 1 && monthOfBirth <= 12,
         "Month of birth must be between 1 and 12.");
     switch (monthOfBirth) {
-    case 1:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-          "Day of birth must be between 1 and 31.");
-      break;
-    case 2:
-      if (yearOfBirth % 4 == 0)
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 29,
-            "Day of birth must be between 1 and 29.");
-      else
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 28,
-            "Day of birth must be between 1 and 28.");
-      break;
-    case 3:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-          "Day of birth must be between 1 and 31.");
-      break;
-    case 4:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
-          "Day of birth must be between 1 and 30.");
-      break;
-    case 5:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-          "Day of birth must be between 1 and 31.");
-      break;
-    case 6:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
-          "Day of birth must be between 1 and 30.");
-      break;
-    case 7:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-          "Day of birth must be between 1 and 31.");
-      break;
-    case 8:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-          "Day of birth must be between 1 and 31.");
-      break;
-    case 9:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
-          "Day of birth must be between 1 and 30.");
-      break;
-    case 10:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-          "Day of birth must be between 1 and 31.");
-      break;
-    case 11:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
-          "Day of birth must be between 1 and 30.");
-      break;
-    case 12:
-      checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-          "Day of birth must be between 1 and 31.");
-      break;
-    default:
-      throw new IllegalArgumentException("Day of birth is invalid.");
+      case 1:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
+            "Day of birth must be between 1 and 31.");
+        break;
+      case 2:
+        if (yearOfBirth % 4 == 0)
+          checkArgument(dayOfBirth >= 1 && dayOfBirth <= 29,
+              "Day of birth must be between 1 and 29.");
+        else
+          checkArgument(dayOfBirth >= 1 && dayOfBirth <= 28,
+              "Day of birth must be between 1 and 28.");
+        break;
+      case 3:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
+            "Day of birth must be between 1 and 31.");
+        break;
+      case 4:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
+            "Day of birth must be between 1 and 30.");
+        break;
+      case 5:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
+            "Day of birth must be between 1 and 31.");
+        break;
+      case 6:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
+            "Day of birth must be between 1 and 30.");
+        break;
+      case 7:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
+            "Day of birth must be between 1 and 31.");
+        break;
+      case 8:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
+            "Day of birth must be between 1 and 31.");
+        break;
+      case 9:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
+            "Day of birth must be between 1 and 30.");
+        break;
+      case 10:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
+            "Day of birth must be between 1 and 31.");
+        break;
+      case 11:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
+            "Day of birth must be between 1 and 30.");
+        break;
+      case 12:
+        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
+            "Day of birth must be between 1 and 31.");
+        break;
+      default:
+        throw new IllegalArgumentException("Day of birth is invalid.");
     }
   }
 
@@ -130,14 +131,13 @@ public final class Birthday implements Comparable<Birthday> {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof Birthday) {
-      Birthday birthday = (Birthday) o;
-      return Objects.equal(yearOfBirth, birthday.yearOfBirth)
-          && Objects.equal(monthOfBirth, birthday.monthOfBirth)
-          && Objects.equal(dayOfBirth, birthday.dayOfBirth);
-    }
-    return false;
+  public boolean equals(final Object other) {
+    if (this == other) return true;
+    if (!(other instanceof Birthday)) return false;
+    Birthday castOther = (Birthday) other;
+    return Objects.equal(yearOfBirth, castOther.yearOfBirth)
+        && Objects.equal(monthOfBirth, castOther.monthOfBirth)
+        && Objects.equal(dayOfBirth, castOther.dayOfBirth);
   }
 
   @Override

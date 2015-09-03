@@ -155,15 +155,13 @@ public class BirthdayTest {
 
   @Test
   public void testCompareTo() {
-    List<Birthday> birthdays =
-        newArrayList(new Birthday(2000, 11, 10), new Birthday(2000, 10, 10),
-            new Birthday(1999, 10, 10), new Birthday(1999, 10, 9),
-            new Birthday(1999, 10, 10));
+    List<Birthday> birthdays = newArrayList(new Birthday(2000, 11, 10),
+        new Birthday(2000, 10, 10), new Birthday(1999, 10, 10),
+        new Birthday(1999, 10, 9), new Birthday(1999, 10, 10));
     Collections.sort(birthdays);
-    assertEquals(
-        newArrayList(new Birthday(1999, 10, 9), new Birthday(1999, 10, 10),
-            new Birthday(1999, 10, 10), new Birthday(2000, 10, 10),
-            new Birthday(2000, 11, 10)), birthdays);
+    assertEquals(newArrayList(new Birthday(1999, 10, 9),
+        new Birthday(1999, 10, 10), new Birthday(1999, 10, 10),
+        new Birthday(2000, 10, 10), new Birthday(2000, 11, 10)), birthdays);
   }
 
 }

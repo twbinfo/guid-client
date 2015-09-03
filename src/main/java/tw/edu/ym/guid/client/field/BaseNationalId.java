@@ -3,10 +3,11 @@ package tw.edu.ym.guid.client.field;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static tw.edu.ym.guid.client.hashcode.Field.giid;
-import tw.edu.ym.guid.client.annotation.Factor;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
+
+import tw.edu.ym.guid.client.annotation.Factor;
 
 public class BaseNationalId implements NationalId {
 
@@ -25,17 +26,16 @@ public class BaseNationalId implements NationalId {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof NationalId) {
-      NationalId id = (NationalId) o;
-      return Objects.equal(getNationalId(), id.getNationalId());
-    }
-    return false;
+  public boolean equals(final Object other) {
+    if (this == other) return true;
+    if (!(other instanceof NationalId)) return false;
+    NationalId castOther = (NationalId) other;
+    return Objects.equal(nationalId, castOther.getNationalId());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(getNationalId());
+    return Objects.hashCode(nationalId);
   }
 
   @Override

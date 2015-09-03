@@ -39,7 +39,8 @@ public class BirthplaceTest {
   @Test
   public void testHashCode() {
     assertEquals(birthplace.hashCode(), new Birthplace(Nation.TW).hashCode());
-    assertNotEquals(birthplace.hashCode(), new Birthplace(Nation.US).hashCode());
+    assertNotEquals(birthplace.hashCode(),
+        new Birthplace(Nation.US).hashCode());
   }
 
   @Test
@@ -49,8 +50,10 @@ public class BirthplaceTest {
 
   @Test
   public void testCompareTo() {
-    assertTrue(new Birthplace(Nation.TW).compareTo(new Birthplace(Nation.US)) < 0);
-    assertTrue(new Birthplace(Nation.TW).compareTo(new Birthplace(Nation.AD)) > 0);
+    assertTrue(
+        new Birthplace(Nation.TW).compareTo(new Birthplace(Nation.US)) < 0);
+    assertTrue(
+        new Birthplace(Nation.TW).compareTo(new Birthplace(Nation.AD)) > 0);
   }
 
 }

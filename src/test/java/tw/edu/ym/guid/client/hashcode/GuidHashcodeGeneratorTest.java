@@ -37,9 +37,8 @@ public class GuidHashcodeGeneratorTest {
 
   @Test
   public void testCompute() {
-    List<String> hashcodes =
-        GuidHashcodeGenerator.compute(name, sex, birthday, nationalId,
-            birthplace, nationality);
+    List<String> hashcodes = GuidHashcodeGenerator.compute(name, sex, birthday,
+        nationalId, birthplace, nationality);
     assertEquals(3, hashcodes.size());
     assertEquals(
         "f3daf55c7999e106cebb8733d24a8baa25b1a684154d601de5398cabde4d2da50072215f81ab0879f59ae29551b0442cbef37dd35931757f8745ca3d455caa9500",
@@ -55,8 +54,8 @@ public class GuidHashcodeGeneratorTest {
   @Test
   public void testComputeWithNullArgument() {
     try {
-      GuidHashcodeGenerator.compute(null, sex, birthday, nationalId,
-          birthplace, nationality);
+      GuidHashcodeGenerator.compute(null, sex, birthday, nationalId, birthplace,
+          nationality);
       fail();
     } catch (NullPointerException e) {}
     try {
@@ -80,8 +79,8 @@ public class GuidHashcodeGeneratorTest {
       fail();
     } catch (NullPointerException e) {}
     try {
-      GuidHashcodeGenerator.compute(name, sex, birthday, nationalId,
-          birthplace, null);
+      GuidHashcodeGenerator.compute(name, sex, birthday, nationalId, birthplace,
+          null);
       fail();
     } catch (NullPointerException e) {}
   }

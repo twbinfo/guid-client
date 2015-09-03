@@ -5,10 +5,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static tw.edu.ym.guid.client.hashcode.Field.fn;
 import static tw.edu.ym.guid.client.hashcode.Field.ln;
 import static tw.edu.ym.guid.client.hashcode.Field.mn;
-import tw.edu.ym.guid.client.annotation.Factor;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
+
+import tw.edu.ym.guid.client.annotation.Factor;
 
 /**
  * 
@@ -92,14 +93,13 @@ public final class Name implements Comparable<Name> {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof Name) {
-      Name name = (Name) o;
-      return Objects.equal(firstName, name.firstName)
-          && Objects.equal(lastName, name.lastName)
-          && Objects.equal(middleName, name.middleName);
-    }
-    return false;
+  public boolean equals(final Object other) {
+    if (this == other) return true;
+    if (!(other instanceof Name)) return false;
+    Name castOther = (Name) other;
+    return Objects.equal(firstName, castOther.firstName)
+        && Objects.equal(lastName, castOther.lastName)
+        && Objects.equal(middleName, castOther.middleName);
   }
 
   @Override

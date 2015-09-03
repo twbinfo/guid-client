@@ -93,9 +93,11 @@ public class NameTest {
   @Test
   public void testCompareTo() {
     assertTrue(new Name("mj", "li").compareTo(new Name("amy", "li")) > 0);
-    assertTrue(new Name("mj", "a", "li").compareTo(new Name("mj", "b", "li")) < 0);
+    assertTrue(
+        new Name("mj", "a", "li").compareTo(new Name("mj", "b", "li")) < 0);
     assertTrue(new Name("mj", "li").compareTo(new Name("mj", "wang")) < 0);
-    assertTrue(new Name("mj", "m", "li").compareTo(new Name("mj", "m", "li")) == 0);
+    assertTrue(
+        new Name("mj", "m", "li").compareTo(new Name("mj", "m", "li")) == 0);
   }
 
 }

@@ -124,9 +124,8 @@ public final class GuidClient {
   public boolean authenticate() throws IOException {
     if (httpClient == null) httpClient = getSSLClient();
 
-    HttpGet httpGet = new HttpGet("https://" + uri.getHost()
-        + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
-        + "/" + Action.AUTH);
+    HttpGet httpGet = new HttpGet(
+        "https://" + uri.getAuthority() + "/" + API_ROOT + "/" + Action.AUTH);
 
     HttpResponse response = checkStatusCode(httpClient.execute(httpGet));
     HttpEntity entity = response.getEntity();
@@ -210,8 +209,9 @@ public final class GuidClient {
    */
   public List<String> query(List<PII> piis) throws IOException {
     List<List<String>> hashsets = newArrayList();
-    for (PII pii : piis)
+    for (PII pii : piis) {
       hashsets.add(pii.getHashcodes());
+    }
     return request(new Gson().toJson(hashsets), Action.QUERY);
   }
 
@@ -219,9 +219,8 @@ public final class GuidClient {
       throws IOException {
     if (httpClient == null) httpClient = getSSLClient();
 
-    HttpPost httpPost = new HttpPost("https://" + uri.getHost()
-        + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
-        + "/" + action);
+    HttpPost httpPost = new HttpPost(
+        "https://" + uri.getAuthority() + "/" + API_ROOT + "/" + action);
 
     List<NameValuePair> nvps = newArrayList();
     nvps.add(new BasicNameValuePair("prefix", prefix));
@@ -230,7 +229,7 @@ public final class GuidClient {
     try {
       httpPost.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
     } catch (UnsupportedEncodingException e) {
-      Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+      Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
       new GuidClientException(e);
     }
     HttpResponse response = checkStatusCode(httpClient.execute(httpPost));
@@ -253,19 +252,18 @@ public final class GuidClient {
     try {
       builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
     } catch (KeyStoreException e) {
-      e.printStackTrace();
+      Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
     }
 
     SSLContext ctx = null;
     try {
       ctx = builder.build();
     } catch (KeyManagementException e) {
-
-      e.printStackTrace();
+      Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
     } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
     }
 
     SSLConnectionSocketFactory sslsf =

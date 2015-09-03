@@ -2,11 +2,12 @@ package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static tw.edu.ym.guid.client.hashcode.Field.cob;
-import tw.edu.ym.guid.client.annotation.Factor;
-import wmw.i18n.Nation;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
+
+import tw.edu.ym.guid.client.annotation.Factor;
+import wmw.i18n.Nation;
 
 /**
  * 
@@ -49,12 +50,11 @@ public final class Birthplace implements Comparable<Birthplace> {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof Birthplace) {
-      Birthplace bp = (Birthplace) o;
-      return Objects.equal(birthplace, bp.birthplace);
-    }
-    return false;
+  public boolean equals(final Object other) {
+    if (this == other) return true;
+    if (!(other instanceof Birthplace)) return false;
+    Birthplace castOther = (Birthplace) other;
+    return Objects.equal(birthplace, castOther.birthplace);
   }
 
   @Override

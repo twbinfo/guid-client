@@ -62,12 +62,11 @@ public final class FieldSet {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof FieldSet) {
-      FieldSet fs = (FieldSet) o;
-      return Objects.equal(fields, fs.fields);
-    }
-    return false;
+  public boolean equals(final Object other) {
+    if (this == other) return true;
+    if (!(other instanceof FieldSet)) return false;
+    FieldSet castOther = (FieldSet) other;
+    return Objects.equal(fields, castOther.fields);
   }
 
   @Override

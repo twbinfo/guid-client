@@ -3,11 +3,12 @@ package tw.edu.ym.guid.client.field;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static tw.edu.ym.guid.client.hashcode.Field.cnob;
 import static tw.edu.ym.guid.client.hashcode.Field.giidc;
-import tw.edu.ym.guid.client.annotation.Factor;
-import wmw.i18n.Nation;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
+
+import tw.edu.ym.guid.client.annotation.Factor;
+import wmw.i18n.Nation;
 
 /**
  * 
@@ -77,13 +78,12 @@ public final class Nationality implements Comparable<Nationality> {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof Nationality) {
-      Nationality nt = (Nationality) o;
-      return Objects.equal(nationality, nt.nationality)
-          && Objects.equal(nationalityOfBirth, nt.nationalityOfBirth);
-    }
-    return false;
+  public boolean equals(final Object other) {
+    if (this == other) return true;
+    if (!(other instanceof Nationality)) return false;
+    Nationality castOther = (Nationality) other;
+    return Objects.equal(nationality, castOther.nationality)
+        && Objects.equal(nationalityOfBirth, castOther.nationalityOfBirth);
   }
 
   @Override

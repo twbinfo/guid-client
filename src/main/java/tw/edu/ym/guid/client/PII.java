@@ -174,16 +174,16 @@ public final class PII implements Comparable<PII> {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (o instanceof PII) {
-      PII pii = (PII) o;
-      return Objects.equal(name, pii.name) && Objects.equal(sex, pii.sex)
-          && Objects.equal(birthday, pii.birthday)
-          && Objects.equal(nationalId, pii.nationalId)
-          && Objects.equal(birthplace, pii.birthplace)
-          && Objects.equal(nationality, pii.nationality);
-    }
-    return false;
+  public boolean equals(final Object other) {
+    if (this == other) return true;
+    if (!(other instanceof PII)) return false;
+    PII castOther = (PII) other;
+    return Objects.equal(name, castOther.name)
+        && Objects.equal(sex, castOther.sex)
+        && Objects.equal(birthday, castOther.birthday)
+        && Objects.equal(nationalId, castOther.nationalId)
+        && Objects.equal(birthplace, castOther.birthplace)
+        && Objects.equal(nationality, castOther.nationality);
   }
 
   @Override

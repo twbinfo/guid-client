@@ -52,8 +52,9 @@ public class InputStreamUtilTest {
   @Test
   public void testToStringWithLineSeparator() {
     String lineSeparator = System.getProperty("line.separator");
-    assertEquals("a" + lineSeparator + "bc" + lineSeparator + "def"
-        + lineSeparator, InputStreamUtil.toString(is, true));
+    assertEquals(
+        "a" + lineSeparator + "bc" + lineSeparator + "def" + lineSeparator,
+        InputStreamUtil.toString(is, true));
   }
 
   @Test
