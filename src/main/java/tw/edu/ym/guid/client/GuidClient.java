@@ -37,10 +37,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.BasicClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
-import wmw.util.InputStreamUtil;
-
 import com.google.common.base.Objects;
 import com.google.gson.Gson;
+
+import wmw.util.InputStreamUtil;
 
 /**
  * 
@@ -125,17 +125,15 @@ public final class GuidClient {
    */
   public boolean authenticate() throws IOException {
     if (httpClient == null)
-      httpClient =
-          new DefaultHttpClient(
-              getSSLClientConnectionManager(uri.getPort() == -1 ? 443
-                  : uri.getPort()));
+      httpClient = new DefaultHttpClient(getSSLClientConnectionManager(
+          uri.getPort() == -1 ? 443 : uri.getPort()));
 
-    HttpGet httpGet =
-        new HttpGet("https://" + uri.getHost()
-            + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
-            + "/" + Action.AUTH);
-    httpGet.addHeader(BasicScheme.authenticate(new UsernamePasswordCredentials(
-        username, password), "US-ASCII", false));
+    HttpGet httpGet = new HttpGet("https://" + uri.getHost()
+        + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
+        + "/" + Action.AUTH);
+    httpGet.addHeader(BasicScheme.authenticate(
+        new UsernamePasswordCredentials(username, password), "US-ASCII",
+        false));
 
     HttpResponse response = checkStatusCode(httpClient.execute(httpGet));
     HttpEntity entity = response.getEntity();
@@ -226,18 +224,15 @@ public final class GuidClient {
   private List<String> request(String jsonHashes, Action action)
       throws IOException {
     if (httpClient == null)
-      httpClient =
-          new DefaultHttpClient(
-              getSSLClientConnectionManager(uri.getPort() == -1 ? 443
-                  : uri.getPort()));
+      httpClient = new DefaultHttpClient(getSSLClientConnectionManager(
+          uri.getPort() == -1 ? 443 : uri.getPort()));
 
-    HttpPost httpPost =
-        new HttpPost("https://" + uri.getHost()
-            + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
-            + "/" + action);
-    httpPost
-        .addHeader(BasicScheme.authenticate(new UsernamePasswordCredentials(
-            username, password), "US-ASCII", false));
+    HttpPost httpPost = new HttpPost("https://" + uri.getHost()
+        + (uri.getPort() == -1 ? "" : ":" + uri.getPort()) + "/" + API_ROOT
+        + "/" + action);
+    httpPost.addHeader(BasicScheme.authenticate(
+        new UsernamePasswordCredentials(username, password), "US-ASCII",
+        false));
 
     List<NameValuePair> nvps = newArrayList();
     nvps.add(new BasicNameValuePair("prefix", prefix));
@@ -276,15 +271,18 @@ public final class GuidClient {
     try {
       sslContext.init(null, new TrustManager[] { new X509TrustManager() {
 
+        @Override
         public X509Certificate[] getAcceptedIssuers() {
           return null;
         }
 
-        public void
-            checkClientTrusted(X509Certificate[] certs, String authType) {}
+        @Override
+        public void checkClientTrusted(X509Certificate[] certs,
+            String authType) {}
 
-        public void
-            checkServerTrusted(X509Certificate[] certs, String authType) {}
+        @Override
+        public void checkServerTrusted(X509Certificate[] certs,
+            String authType) {}
 
       } }, new SecureRandom());
     } catch (KeyManagementException e) {
