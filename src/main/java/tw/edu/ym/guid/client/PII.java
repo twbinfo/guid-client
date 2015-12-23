@@ -11,6 +11,7 @@ import com.google.common.collect.ComparisonChain;
 import tw.edu.ym.guid.client.field.Birthday;
 import tw.edu.ym.guid.client.field.Birthplace;
 import tw.edu.ym.guid.client.field.Name;
+import tw.edu.ym.guid.client.field.NameSplitter;
 import tw.edu.ym.guid.client.field.NationalId;
 import tw.edu.ym.guid.client.field.Nationality;
 import tw.edu.ym.guid.client.field.Sex;
@@ -60,6 +61,22 @@ public final class PII implements Comparable<PII> {
     public Builder(Name name, Sex sex, Birthday birthday,
         NationalId nationalId) {
       this.name = checkNotNull(name, "Name can't be null.");
+      this.sex = checkNotNull(sex, "Sex can't be null.");
+      this.birthday = checkNotNull(birthday, "Birthday can't be null.");
+      this.nationalId = checkNotNull(nationalId, "NationalId can't be null.");
+    }
+
+    /**
+     * Creates a PII.Builder.
+     * 
+     * @param name
+     * @param sex
+     * @param birthday
+     * @param nationalId
+     */
+    public Builder(String fullname, Sex sex, Birthday birthday,
+        NationalId nationalId) {
+      this.name = NameSplitter.split(fullname);
       this.sex = checkNotNull(sex, "Sex can't be null.");
       this.birthday = checkNotNull(birthday, "Birthday can't be null.");
       this.nationalId = checkNotNull(nationalId, "NationalId can't be null.");

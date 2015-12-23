@@ -278,7 +278,7 @@ public final class GuidClient {
 
     CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
     credentialsProvider.setCredentials(AuthScope.ANY,
-        new UsernamePasswordCredentials("username", "password"));
+        new UsernamePasswordCredentials(username, password));
 
     return HttpClients.custom()
         .setDefaultCredentialsProvider(credentialsProvider)
