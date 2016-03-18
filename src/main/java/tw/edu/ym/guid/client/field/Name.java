@@ -6,6 +6,8 @@ import static tw.edu.ym.guid.client.hashcode.Field.fn;
 import static tw.edu.ym.guid.client.hashcode.Field.ln;
 import static tw.edu.ym.guid.client.hashcode.Field.mn;
 
+import java.util.Map;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
 
@@ -19,6 +21,10 @@ import tw.edu.ym.guid.client.annotation.Factor;
  * 
  */
 public final class Name implements Comparable<Name> {
+
+  public enum NamePart {
+    FIRST_NAME, LAST_NAME, MIDDLE_NAME;
+  }
 
   public static final String DEFAULT_MIDDLE_NAME = "NOTAPPLICABLE";
 
@@ -51,6 +57,21 @@ public final class Name implements Comparable<Name> {
     this.firstName = firstName.trim().toUpperCase();
     this.lastName = lastName.trim().toUpperCase();
     this.middleName = middleName.trim().toUpperCase();
+  }
+
+  /**
+   * Creates a Name.
+   * 
+   * @param name
+   */
+  public Name(Map<NamePart, String> name) {
+    validate(name.get(NamePart.FIRST_NAME), name.get(NamePart.LAST_NAME),
+        name.get(NamePart.MIDDLE_NAME));
+    this.firstName = name.get(NamePart.FIRST_NAME).trim().toUpperCase();
+    this.lastName = name.get(NamePart.LAST_NAME).trim().toUpperCase();
+    this.middleName = name.get(NamePart.MIDDLE_NAME) != null
+        ? name.get(NamePart.MIDDLE_NAME).trim().toUpperCase()
+        : DEFAULT_MIDDLE_NAME;
   }
 
   private void validate(String firstName, String lastName, String middleName) {

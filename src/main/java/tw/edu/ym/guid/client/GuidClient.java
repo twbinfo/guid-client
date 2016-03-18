@@ -18,6 +18,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -37,8 +38,6 @@ import org.apache.http.ssl.SSLContextBuilder;
 
 import com.google.common.base.MoreObjects;
 import com.google.gson.Gson;
-
-import wmw.util.InputStreamUtil;
 
 /**
  * 
@@ -130,7 +129,7 @@ public final class GuidClient {
     HttpResponse response = checkStatusCode(httpClient.execute(httpGet));
     HttpEntity entity = response.getEntity();
 
-    String json = InputStreamUtil.toString(entity.getContent());
+    String json = IOUtils.toString(entity.getContent());
     Boolean result = new Gson().fromJson(json, Boolean.class);
     return result;
   }
@@ -235,7 +234,7 @@ public final class GuidClient {
     HttpResponse response = checkStatusCode(httpClient.execute(httpPost));
     HttpEntity entity = response.getEntity();
 
-    String json = InputStreamUtil.toString(entity.getContent());
+    String json = IOUtils.toString(entity.getContent());
     @SuppressWarnings("unchecked")
     List<String> result = new Gson().fromJson(json, List.class);
     return result;

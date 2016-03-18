@@ -15,14 +15,12 @@ import tw.edu.ym.guid.client.field.TWNationalIdTest;
 import tw.edu.ym.guid.client.hashcode.FieldSetTest;
 import tw.edu.ym.guid.client.hashcode.GuidHashcodeGeneratorTest;
 import wmw.i18n.NationTest;
-import wmw.util.InputStreamUtilTest;
 import wmw.validate.TWNationalIdValidatorTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ GuidClientTest.class, GuidHashcodeGeneratorTest.class,
     PIITest.class, BaseNationalIdTest.class, BirthdayTest.class,
     BirthplaceTest.class, NameTest.class, NationalityTest.class, SexTest.class,
-    TWNationalIdTest.class, NationTest.class, InputStreamUtilTest.class,
-    TWNationalIdValidatorTest.class, FieldSetTest.class,
-    FactorExtractorTest.class })
+    TWNationalIdTest.class, NationTest.class, TWNationalIdValidatorTest.class,
+    FieldSetTest.class, FactorExtractorTest.class })
 public class AllTests {}

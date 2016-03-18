@@ -69,7 +69,7 @@ public final class PII implements Comparable<PII> {
     /**
      * Creates a PII.Builder.
      * 
-     * @param name
+     * @param fullname
      * @param sex
      * @param birthday
      * @param nationalId

@@ -8,9 +8,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.common.collect.ImmutableMap;
+
 import tw.edu.ym.guid.client.field.Birthday;
 import tw.edu.ym.guid.client.field.Birthplace;
 import tw.edu.ym.guid.client.field.Name;
+import tw.edu.ym.guid.client.field.Name.NamePart;
 import tw.edu.ym.guid.client.field.Nationality;
 import tw.edu.ym.guid.client.field.Sex;
 import tw.edu.ym.guid.client.field.TWNationalId;
@@ -27,7 +30,8 @@ public class PIITest {
 
   @Before
   public void setUp() throws Exception {
-    name = new Name("mj", "li");
+    name = new Name(
+        ImmutableMap.of(NamePart.FIRST_NAME, "mj", NamePart.LAST_NAME, "li"));
     sex = Sex.MALE;
     birthday = new Birthday(1979, 7, 21);
     nationalId = new TWNationalId("E122371585");
