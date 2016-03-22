@@ -31,6 +31,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -125,6 +126,9 @@ public final class GuidClient {
 
     HttpGet httpGet = new HttpGet(
         "https://" + uri.getAuthority() + "/" + API_ROOT + "/" + Action.AUTH);
+    httpGet.addHeader(BasicScheme.authenticate(
+        new UsernamePasswordCredentials(username, password), "US-ASCII",
+        false));
 
     HttpResponse response = checkStatusCode(httpClient.execute(httpGet));
     HttpEntity entity = response.getEntity();
@@ -220,6 +224,9 @@ public final class GuidClient {
 
     HttpPost httpPost = new HttpPost(
         "https://" + uri.getAuthority() + "/" + API_ROOT + "/" + action);
+    httpPost.addHeader(BasicScheme.authenticate(
+        new UsernamePasswordCredentials(username, password), "US-ASCII",
+        false));
 
     List<NameValuePair> nvps = newArrayList();
     nvps.add(new BasicNameValuePair("prefix", prefix));
