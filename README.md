@@ -4,18 +4,18 @@ GUID client for Java.
 
 ##Maven Repo
 ```xml
-<dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>tw.edu.ym.guid</groupId>
 			<artifactId>guid-client</artifactId>
-			<version>1.3.2</version>
+			<version>1.3.3</version>
 		</dependency>
 	</dependencies>
 
 	<repositories>
 		<repository>
 			<id>guid-client-mvn-repo</id>
-			<url>https://raw.github.com/twbinfo/guid-client/1.3.2/</url>
+			<url>https://raw.github.com/twbinfo/guid-client/1.3.3/</url>
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>always</updatePolicy>
