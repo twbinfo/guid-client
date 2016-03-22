@@ -121,6 +121,7 @@ public final class GuidClient {
    * @return true if authenticated, false otherwise
    * @throws IOException
    */
+  @SuppressWarnings("deprecation")
   public boolean authenticate() throws IOException {
     if (httpClient == null) httpClient = getSSLClient();
 
@@ -218,6 +219,7 @@ public final class GuidClient {
     return request(new Gson().toJson(hashsets), Action.QUERY);
   }
 
+  @SuppressWarnings("deprecation")
   private List<String> request(String jsonHashes, Action action)
       throws IOException {
     if (httpClient == null) httpClient = getSSLClient();
