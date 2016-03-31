@@ -8,6 +8,7 @@ import static tw.edu.ym.guid.client.hashcode.Field.yob;
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
 
+import net.sf.rubycollect4j.RubyCollections;
 import tw.edu.ym.guid.client.annotation.Factor;
 
 /**
@@ -38,8 +39,11 @@ public final class Birthday implements Comparable<Birthday> {
   }
 
   private void validate(int yearOfBirth, int monthOfBirth, int dayOfBirth) {
-    checkArgument(yearOfBirth >= 1910 && yearOfBirth <= 2100,
-        "Year of birth must be between 1910 and 2100.");
+    int currentYear = RubyCollections.date().year();
+    checkArgument(
+        yearOfBirth >= currentYear - 150 && yearOfBirth <= currentYear + 1,
+        "Year of birth must be between " + (currentYear - 150) + " and "
+            + (currentYear + 1));
     checkArgument(monthOfBirth >= 1 && monthOfBirth <= 12,
         "Month of birth must be between 1 and 12.");
     switch (monthOfBirth) {
