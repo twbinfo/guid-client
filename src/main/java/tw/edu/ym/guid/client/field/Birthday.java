@@ -1,6 +1,7 @@
 package tw.edu.ym.guid.client.field;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static net.sf.rubycollect4j.RubyCollections.range;
 import static tw.edu.ym.guid.client.hashcode.Field.dob;
 import static tw.edu.ym.guid.client.hashcode.Field.mob;
 import static tw.edu.ym.guid.client.hashcode.Field.yob;
@@ -8,6 +9,7 @@ import static tw.edu.ym.guid.client.hashcode.Field.yob;
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
 
+import net.sf.rubycollect4j.RubyDate;
 import tw.edu.ym.guid.client.annotation.Factor;
 
 /**
@@ -38,65 +40,41 @@ public final class Birthday implements Comparable<Birthday> {
   }
 
   private void validate(int yearOfBirth, int monthOfBirth, int dayOfBirth) {
-    checkArgument(yearOfBirth >= 1910 && yearOfBirth <= 2100,
-        "Year of birth must be between 1910 and 2100.");
-    checkArgument(monthOfBirth >= 1 && monthOfBirth <= 12,
-        "Month of birth must be between 1 and 12.");
+    int currentYear = RubyDate.current().year();
+    checkArgument(
+        range(currentYear - 150, currentYear + 1).includeʔ(yearOfBirth),
+        "Year of birth must be between " + (currentYear - 150) + " and "
+            + (currentYear + 1));
+    checkArgument(range(1, 12).includeʔ(monthOfBirth),
+        "Month of birth must be between 1 and 12");
     switch (monthOfBirth) {
       case 1:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-            "Day of birth must be between 1 and 31.");
+      case 3:
+      case 5:
+      case 7:
+      case 8:
+      case 10:
+      case 12:
+        checkArgument(range(1, 31).includeʔ(dayOfBirth),
+            "Day of birth must be between 1 and 31");
         break;
       case 2:
-        if (yearOfBirth % 4 == 0)
-          checkArgument(dayOfBirth >= 1 && dayOfBirth <= 29,
-              "Day of birth must be between 1 and 29.");
+        if (yearOfBirth % 4 == 0 && yearOfBirth % 100 != 0)
+          checkArgument(range(1, 29).includeʔ(dayOfBirth),
+              "Day of birth must be between 1 and 29");
         else
-          checkArgument(dayOfBirth >= 1 && dayOfBirth <= 28,
-              "Day of birth must be between 1 and 28.");
-        break;
-      case 3:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-            "Day of birth must be between 1 and 31.");
+          checkArgument(range(1, 28).includeʔ(dayOfBirth),
+              "Day of birth must be between 1 and 28");
         break;
       case 4:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
-            "Day of birth must be between 1 and 30.");
-        break;
-      case 5:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-            "Day of birth must be between 1 and 31.");
-        break;
       case 6:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
-            "Day of birth must be between 1 and 30.");
-        break;
-      case 7:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-            "Day of birth must be between 1 and 31.");
-        break;
-      case 8:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-            "Day of birth must be between 1 and 31.");
-        break;
       case 9:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
-            "Day of birth must be between 1 and 30.");
-        break;
-      case 10:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-            "Day of birth must be between 1 and 31.");
-        break;
       case 11:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 30,
-            "Day of birth must be between 1 and 30.");
-        break;
-      case 12:
-        checkArgument(dayOfBirth >= 1 && dayOfBirth <= 31,
-            "Day of birth must be between 1 and 31.");
+        checkArgument(range(1, 30).includeʔ(dayOfBirth),
+            "Day of birth must be between 1 and 30");
         break;
       default:
-        throw new IllegalArgumentException("Day of birth is invalid.");
+        throw new IllegalArgumentException("Day of birth is invalid");
     }
   }
 
