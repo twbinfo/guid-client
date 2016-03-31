@@ -59,7 +59,8 @@ public final class Birthday implements Comparable<Birthday> {
             "Day of birth must be between 1 and 31");
         break;
       case 2:
-        if (yearOfBirth % 4 == 0 && yearOfBirth % 100 != 0)
+        if ((yearOfBirth % 4 == 0 && yearOfBirth % 100 != 0)
+            || yearOfBirth % 400 == 0)
           checkArgument(range(1, 29).includeʔ(dayOfBirth),
               "Day of birth must be between 1 and 29");
         else

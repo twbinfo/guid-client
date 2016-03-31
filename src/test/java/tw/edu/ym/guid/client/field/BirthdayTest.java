@@ -125,6 +125,7 @@ public class BirthdayTest {
       fail();
     } catch (IllegalArgumentException e) {}
     new Birthday(1904, 2, 29);
+    new Birthday(2000, 2, 29);
   }
 
   @Test

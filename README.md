@@ -8,14 +8,14 @@ GUID client for Java.
 	<dependency>
 		<groupId>tw.edu.ym.guid</groupId>
 		<artifactId>guid-client</artifactId>
-		<version>1.3.4</version>
+		<version>1.3.5</version>
 	</dependency>
 </dependencies>
 
 <repositories>
 	<repository>
 		<id>guid-client-mvn-repo</id>
-		<url>https://raw.github.com/twbinfo/guid-client/1.3.4/</url>
+		<url>https://raw.github.com/twbinfo/guid-client/1.3.5/</url>
 		<snapshots>
 			<enabled>true</enabled>
 			<updatePolicy>always</updatePolicy>
