@@ -1,31 +1,27 @@
 Version 1.0.0
-
 + First release
 
 Version 1.1.0
-
 * Returned String instead of List while performing single query
 * Changed GuidClient constructor signature
 + Added HttpRequestException
 
 Version 1.2.0
-
 + Added Factor annotation
 
 Version 1.3.0
-
 + Added exception messages
 + Added GuidClient#authenticate
 
 Version 1.3.1
-
 * Enhanced TWNationalIdValidator
 
 Version 1.3.2
-
 * Upgrade dependency and code quality
 
 Version 1.3.3
-
 * Fix Apache HttpClient basicAuth bug
+
+Version 1.3.4
+* Change birthday year range
 
