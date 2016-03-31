@@ -115,8 +115,16 @@ public class BirthdayTest {
         new Birthday(md[0], 2, md[1] + 1);
         fail();
       } catch (IllegalArgumentException e) {}
-
     }
+  }
+
+  @Test
+  public void testFebruary() {
+    try {
+      new Birthday(1900, 2, 29);
+      fail();
+    } catch (IllegalArgumentException e) {}
+    new Birthday(1904, 2, 29);
   }
 
   @Test
