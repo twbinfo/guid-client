@@ -33,6 +33,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.sf.rubycollect4j.RubyCollections;
+
 public class BirthdayTest {
 
   private Birthday birthday;
@@ -49,28 +51,28 @@ public class BirthdayTest {
 
   @Test
   public void testContructorWithInvalidYear() {
-    new Birthday(1910, 6, 5);
+    new Birthday(RubyCollections.date().year() - 150, 6, 5);
     try {
-      new Birthday(1909, 6, 5);
+      new Birthday(RubyCollections.date().year() - 151, 6, 5);
       fail();
     } catch (IllegalArgumentException e) {}
-    new Birthday(2100, 6, 5);
+    new Birthday(RubyCollections.date().year(), 6, 5);
     try {
-      new Birthday(2101, 6, 5);
+      new Birthday(RubyCollections.date().year() + 2, 6, 5);
       fail();
     } catch (IllegalArgumentException e) {}
   }
 
   @Test
   public void testContructorWithInvalidMonth() {
-    new Birthday(1910, 1, 5);
+    new Birthday(RubyCollections.date().year() - 150, 1, 5);
     try {
-      new Birthday(1910, 0, 5);
+      new Birthday(RubyCollections.date().year() - 150, 0, 5);
       fail();
     } catch (IllegalArgumentException e) {}
-    new Birthday(2100, 12, 5);
+    new Birthday(RubyCollections.date().year() + 1, 12, 5);
     try {
-      new Birthday(2100, 13, 5);
+      new Birthday(RubyCollections.date().year() + 1, 13, 5);
       fail();
     } catch (IllegalArgumentException e) {}
   }
@@ -78,26 +80,26 @@ public class BirthdayTest {
   @Test
   public void testContructorWithInvalidDay() {
     for (int month : new int[] { 1, 3, 5, 7, 8, 10, 12 }) {
-      new Birthday(1910, month, 1);
+      new Birthday(RubyCollections.date().year() - 150, month, 1);
       try {
-        new Birthday(1910, month, 0);
+        new Birthday(RubyCollections.date().year() - 150, month, 0);
         fail();
       } catch (IllegalArgumentException e) {}
-      new Birthday(1910, month, 31);
+      new Birthday(RubyCollections.date().year() - 150, month, 31);
       try {
-        new Birthday(2100, month, 32);
+        new Birthday(RubyCollections.date().year() + 1, month, 32);
         fail();
       } catch (IllegalArgumentException e) {}
     }
     for (int month : new int[] { 4, 6, 9, 11 }) {
-      new Birthday(1910, month, 1);
+      new Birthday(RubyCollections.date().year() - 150, month, 1);
       try {
-        new Birthday(1910, month, 0);
+        new Birthday(RubyCollections.date().year() - 150, month, 0);
         fail();
       } catch (IllegalArgumentException e) {}
-      new Birthday(1910, month, 30);
+      new Birthday(RubyCollections.date().year() - 150, month, 30);
       try {
-        new Birthday(2100, month, 31);
+        new Birthday(RubyCollections.date().year() + 1, month, 31);
         fail();
       } catch (IllegalArgumentException e) {}
     }
