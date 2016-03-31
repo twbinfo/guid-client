@@ -27,6 +27,8 @@ GUID client for Java.
 ##Quick Start
 ####GUID Client
 ```java
+import static tw.edu.ym.guid.client.field.Name.NamePart.*;
+
 PII pii = new PII.Builder(
   new Name(ImmutableMap.of(LAST_NAME, "李", FIRST_NAME, "大寶")), Sex.MALE,
   new Birthday(2015, 1, 31), new TWNationalId("A123456789")).build();
