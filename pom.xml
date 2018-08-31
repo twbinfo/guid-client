@@ -14,7 +14,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<github.global.server>github</github.global.server>
 	</properties>
 
 	<dependencies>
@@ -29,13 +28,19 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>19.0</version>
+			<version>26.0-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.4</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.rubycollect4j</groupId>
+			<artifactId>rubycollect4j</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<!-- Test -->
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
@@ -47,67 +52,42 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>net.sf.rubycollect4j</groupId>
-			<artifactId>rubycollect4j</artifactId>
-			<version>2.0.1</version>
-		</dependency>
 	</dependencies>
-
-	<distributionManagement>
-		<repository>
-			<id>internal.repo</id>
-			<name>Temporary Staging Repository</name>
-			<url>file://${project.build.directory}/mvn-repo</url>
-		</repository>
-	</distributionManagement>
 
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
+				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<id>attach-sources</id>
 						<goals>
-							<goal>shade</goal>
+							<goal>jar-no-fork</goal>
 						</goals>
-						<configuration>
-							<finalName>${project.artifactId}-${project.version}</finalName>
-							<createDependencyReducedPom>false</createDependencyReducedPom>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<version>0.12</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
-					<message>Maven artifacts for ${project.version}</message>
-					<noJekyll>true</noJekyll>
-					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-					<branch>refs/heads/${project.version}</branch>
-					<includes>
-						<include>**/*</include>
-					</includes>
-					<repositoryName>${project.artifactId}</repositoryName>
-					<repositoryOwner>twbinfo</repositoryOwner>
+					<failOnError>false</failOnError>
 				</configuration>
 				<executions>
 					<execution>
+						<id>attach-javadocs</id>
 						<goals>
-							<goal>site</goal>
+							<goal>jar</goal>
 						</goals>
-						<phase>deploy</phase>
 					</execution>
 				</executions>
 			</plugin>

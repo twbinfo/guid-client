@@ -6,20 +6,16 @@ GUID client for Java.
 ```xml
 <dependencies>
 	<dependency>
-		<groupId>tw.edu.ym.guid</groupId>
+		<groupId>com.guthub.twbinfo</groupId>
 		<artifactId>guid-client</artifactId>
-		<version>1.3.5</version>
+		<version>master-SNAPSHOT</version>
 	</dependency>
 </dependencies>
 
 <repositories>
 	<repository>
-		<id>guid-client-mvn-repo</id>
-		<url>https://raw.github.com/twbinfo/guid-client/1.3.5/</url>
-		<snapshots>
-			<enabled>true</enabled>
-			<updatePolicy>always</updatePolicy>
-		</snapshots>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
 	</repository>
 </repositories>
 ```
