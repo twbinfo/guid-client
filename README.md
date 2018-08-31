@@ -8,7 +8,7 @@ GUID client for Java.
 	<dependency>
 		<groupId>com.guthub.twbinfo</groupId>
 		<artifactId>guid-client</artifactId>
-		<version>master-SNAPSHOT</version>
+		<version>develop-SNAPSHOT</version>
 	</dependency>
 </dependencies>
 
